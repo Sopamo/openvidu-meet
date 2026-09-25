@@ -73,6 +73,8 @@
 			"YOU": "Sie",
 			"MUTE": "Stummschalten",
 			"UNMUTE": "Stummschaltung aufheben",
+			"VOLUME": "Lautstärke (nur für dich)",
+			"RESET_VOLUME": "Auf 100 % zurücksetzen",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Verbindungsqualität",
 				"EXCELLENT": "Ausgezeichnet",

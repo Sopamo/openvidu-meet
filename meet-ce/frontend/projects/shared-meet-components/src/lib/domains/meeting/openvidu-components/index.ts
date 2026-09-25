@@ -58,6 +58,7 @@ export * from './services/logger/logger.service';
 export * from './services/openvidu/openvidu.service';
 export * from './services/panel/panel.service';
 export * from './services/participant/participant.service';
+export * from './services/participant/participant-volume.service';
 export * from './services/storage/storage.service';
 export * from './services/template/template-registry.service';
 export * from './services/theme/theme.service';

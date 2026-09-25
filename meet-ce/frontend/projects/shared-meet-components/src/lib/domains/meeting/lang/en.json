@@ -70,6 +70,8 @@
 			"YOU": "You",
 			"MUTE": "Mute",
 			"UNMUTE": "Unmute",
+			"VOLUME": "Volume (only for you)",
+			"RESET_VOLUME": "Reset to 100%",
 			"SHARING_SCREEN": "Sharing screen",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Connection quality",

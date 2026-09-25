@@ -73,6 +73,8 @@
 			"YOU": "あなた",
 			"MUTE": "ミュート",
 			"UNMUTE": "ミュート解除",
+			"VOLUME": "音量（自分だけ）",
+			"RESET_VOLUME": "100% に戻す",
 			"CONNECTION_QUALITY": {
 				"LABEL": "接続品質",
 				"EXCELLENT": "優れた",

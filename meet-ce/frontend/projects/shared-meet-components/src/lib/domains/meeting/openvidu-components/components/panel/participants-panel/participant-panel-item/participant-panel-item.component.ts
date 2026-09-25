@@ -3,12 +3,14 @@ import { ChangeDetectionStrategy, Component, computed, contentChild, inject, inp
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ParticipantPanelItemElementsDirective } from '../../../../directives/template/openvidu-components-angular.directive';
 import { ParticipantPanelParticipantBadgeDirective } from '../../../../directives/template/internals.directive';
 import { ParticipantModel } from '../../../../models/participant.model';
 import { TranslatePipe } from '../../../../pipes/translate.pipe';
 import { OpenViduComponentsConfigService } from '../../../../services/config/directive-config.service';
+import { ParticipantVolumeService } from '../../../../services/participant/participant-volume.service';
 import { ParticipantService } from '../../../../services/participant/participant.service';
 import { TemplateRegistryService } from '../../../../services/template/template-registry.service';
 import { ConnectionQualityIndicatorComponent } from '../../../connection-quality-indicator/connection-quality-indicator.component';
@@ -21,7 +23,7 @@ import { ParticipantAvatarComponent } from '../../../participant-avatar/particip
  */
 @Component({
 	selector: 'ov-participant-panel-item',
-	imports: [CommonModule, MatButtonModule, MatIconModule, MatListModule, MatTooltipModule, TranslatePipe, ParticipantAvatarComponent, ConnectionQualityIndicatorComponent],
+	imports: [CommonModule, MatButtonModule, MatIconModule, MatListModule, MatSliderModule, MatTooltipModule, TranslatePipe, ParticipantAvatarComponent, ConnectionQualityIndicatorComponent],
 	templateUrl: './participant-panel-item.component.html',
 	styleUrls: ['./participant-panel-item.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
@@ -32,6 +34,7 @@ export class ParticipantPanelItemComponent {
 	readonly muteButtonInput = input(true, { alias: 'muteButton' });
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	private readonly participantService = inject(ParticipantService);
+	private readonly volumeService = inject(ParticipantVolumeService);
 	private readonly templateRegistry = inject(TemplateRegistryService);
 
 	/**
@@ -66,6 +69,32 @@ export class ParticipantPanelItemComponent {
 		const participant = this.participantInput();
 		return !!participant && !participant.isCameraEnabled;
 	});
+
+	/** Local playback volume of this (remote) participant, see {@link ParticipantVolumeService}. */
+	readonly maxVolume = ParticipantVolumeService.MAX;
+	readonly volumeStep = ParticipantVolumeService.STEP;
+	readonly volume = computed(() => {
+		const identity = this.participantInput()?.identity;
+		return identity ? (this.volumeService.volumes()[identity] ?? 1) : 1;
+	});
+	readonly volumeIcon = computed(() => {
+		const v = this.volume();
+		return v === 0 ? 'volume_off' : v < 1 ? 'volume_down' : 'volume_up';
+	});
+
+	formatVolume(value: number): string {
+		return `${Math.round(value * 100)}%`;
+	}
+
+	setVolume(value: number | string) {
+		const identity = this._participant?.identity;
+		if (identity) this.volumeService.setVolume(identity, Number(value));
+	}
+
+	resetVolume() {
+		const identity = this._participant?.identity;
+		if (identity) this.volumeService.resetVolume(identity);
+	}
 
 	get _participant(): ParticipantModel | undefined {
 		return this.participantInput();

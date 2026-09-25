@@ -16,8 +16,9 @@ import {
 import { LayoutAdditionalElementsDirective } from '../../../directives/template/internals.directive';
 import { ParticipantModel, ParticipantStream } from '../../../models/participant.model';
 import { SmartLayoutService } from '../../../services/layout/smart-layout.service';
+import { ParticipantVolumeService } from '../../../services/participant/participant-volume.service';
 import { ParticipantService } from '../../../services/participant/participant.service';
-import { Track } from '../../../services/livekit-adapter';
+import { RemoteAudioTrack, Track } from '../../../services/livekit-adapter';
 import { HiddenParticipantsIndicatorComponent } from '../../hidden-participants-indicator/hidden-participants-indicator.component';
 import { BaseLayoutComponent } from '../base-layout.component';
 
@@ -41,6 +42,7 @@ interface PersistentAudioEntry {
 export class SmartLayoutComponent implements OnDestroy {
 	readonly layoutService = inject(SmartLayoutService);
 	private readonly participantService = inject(ParticipantService);
+	private readonly volumeService = inject(ParticipantVolumeService);
 
 	/** `*ovLayoutAdditionalElements` directives projected from the parent. */
 	readonly projectedAdditionalElements = contentChildren(LayoutAdditionalElementsDirective);
@@ -232,6 +234,8 @@ export class SmartLayoutComponent implements OnDestroy {
 		allRemotes.forEach((p) => p.streams());
 		// Track the container so we re-run once viewChild resolves and can mount queued elements.
 		const container = this.audioContainer()?.nativeElement ?? null;
+		// Re-apply playback volumes when the local user changes one.
+		this.volumeService.volumes();
 
 		untracked(() => this.manageAudioTracks(allRemotes, container));
 	});
@@ -282,7 +286,14 @@ export class SmartLayoutComponent implements OnDestroy {
 					entry.mounted = true;
 				}
 
-				entry.element.muted = stream.isMutedForcibly;
+				// Local mute and the per-participant volume both act on the track's playback gain (the
+				// element itself stays muted: with webAudioMix, audio is played through Web Audio).
+				const volume = stream.isMutedForcibly ? 0 : this.volumeService.volumeOf(participant.identity);
+				if (track instanceof RemoteAudioTrack) {
+					track.setVolume(volume);
+				} else {
+					entry.element.muted = stream.isMutedForcibly;
+				}
 			}
 		}
 

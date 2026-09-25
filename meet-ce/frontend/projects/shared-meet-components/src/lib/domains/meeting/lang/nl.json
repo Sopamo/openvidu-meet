@@ -73,6 +73,8 @@
 			"YOU": "Jij",
 			"MUTE": "Dempen",
 			"UNMUTE": "Dempen opheffen",
+			"VOLUME": "Volume (alleen voor jou)",
+			"RESET_VOLUME": "Terugzetten naar 100%",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Verbindingskwaliteit",
 				"EXCELLENT": "Uitstekend",

@@ -73,6 +73,8 @@
 			"YOU": "आप",
 			"MUTE": "मौन",
 			"UNMUTE": "अनमौन",
+			"VOLUME": "वॉल्यूम (केवल आपके लिए)",
+			"RESET_VOLUME": "100% पर रीसेट करें",
 			"CONNECTION_QUALITY": {
 				"LABEL": "कनेक्शन गुणवत्ता",
 				"EXCELLENT": "उत्कृष्ट",

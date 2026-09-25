@@ -73,6 +73,8 @@
 			"YOU": "你",
 			"MUTE": "静音",
 			"UNMUTE": "取消静音",
+			"VOLUME": "音量（仅对你生效）",
+			"RESET_VOLUME": "重置为 100%",
 			"CONNECTION_QUALITY": {
 				"LABEL": "连接质量",
 				"EXCELLENT": "优秀",

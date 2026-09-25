@@ -104,7 +104,10 @@ export class OpenViduService {
 				stopMicTrackOnMute: true
 			},
 			stopLocalTrackOnUnpublish: true,
-			disconnectOnPageLeave: true
+			disconnectOnPageLeave: true,
+			// comeet: remote audio plays through Web Audio, so each participant's local volume
+			// (ParticipantVolumeService) can also boost quiet speakers above 100%.
+			webAudioMix: true
 		};
 
 		// Configure E2EE if key is provided and keyProvider exists

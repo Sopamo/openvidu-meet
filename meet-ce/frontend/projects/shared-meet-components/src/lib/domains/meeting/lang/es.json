@@ -73,6 +73,8 @@
 			"YOU": "Tú",
 			"MUTE": "Silenciar",
 			"UNMUTE": "Activar audio",
+			"VOLUME": "Volumen (solo para ti)",
+			"RESET_VOLUME": "Restablecer al 100 %",
 			"SHARING_SCREEN": "Compartiendo pantalla",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Calidad de conexión",

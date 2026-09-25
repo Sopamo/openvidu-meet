@@ -110,6 +110,40 @@
 						}
 					</div>
 				}
+
+				<!-- comeet: local playback volume for this participant (only affects what you hear) -->
+				@if (!isLocalParticipant() && !_participant.hasEncryptionError) {
+					<div class="participant-volume" [class.changed]="volume() !== 1">
+						<mat-icon class="volume-icon" [fontIcon]="volumeIcon()" aria-hidden="true" />
+						<mat-slider
+							class="volume-slider"
+							[min]="0"
+							[max]="maxVolume"
+							[step]="volumeStep"
+							[displayWith]="formatVolume"
+							discrete
+							[matTooltip]="'PANEL.PARTICIPANTS.VOLUME' | translate"
+						>
+							<input
+								matSliderThumb
+								id="volume-slider"
+								[value]="volume()"
+								(input)="setVolume($any($event.target).value)"
+								[attr.aria-label]="('PANEL.PARTICIPANTS.VOLUME' | translate) + ' ' + participantDisplayName()"
+							/>
+						</mat-slider>
+						<button
+							type="button"
+							class="volume-value"
+							id="volume-reset-btn"
+							(click)="resetVolume()"
+							[disabled]="volume() === 1"
+							[matTooltip]="'PANEL.PARTICIPANTS.RESET_VOLUME' | translate"
+						>
+							{{ formatVolume(volume()) }}
+						</button>
+					</div>
+				}
 			</div>
 		}
 	</mat-list-item>

@@ -10,7 +10,8 @@ export enum StorageKeys {
 	LANG = 'lang',
 	CAPTION_LANG = 'captionLang',
 	BACKGROUND = 'virtualBg',
-	THEME = 'theme'
+	THEME = 'theme',
+	PARTICIPANT_VOLUMES = 'participantVolumes'
 }
 
 /**

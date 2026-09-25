@@ -72,6 +72,8 @@
 			"YOU": "Vous",
 			"MUTE": "Couper le son",
 			"UNMUTE": "Désactiver le son",
+			"VOLUME": "Volume (pour vous uniquement)",
+			"RESET_VOLUME": "Rétablir à 100 %",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Qualité de connexion",
 				"EXCELLENT": "Excellent",

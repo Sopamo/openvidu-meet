@@ -73,6 +73,8 @@
 			"YOU": "Tu",
 			"MUTE": "Disattiva l'audio",
 			"UNMUTE": "Attiva l'audio",
+			"VOLUME": "Volume (solo per te)",
+			"RESET_VOLUME": "Ripristina al 100%",
 			"CONNECTION_QUALITY": {
 				"LABEL": "Qualità della connessione",
 				"EXCELLENT": "Eccellente",

@@ -13,6 +13,7 @@ export {
     LocalTrackPublication,
     LocalVideoTrack,
     Participant,
+    RemoteAudioTrack,
     RemoteParticipant,
     RemoteTrack,
     RemoteTrackPublication,
