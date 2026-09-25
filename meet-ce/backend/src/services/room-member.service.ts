@@ -444,6 +444,12 @@ export class RoomMemberService {
 	): Promise<string> {
 		const { secret, joinMeeting = false, participantName } = tokenOptions;
 
+		// comeet: no guest access. Room link secrets (anonymous links, identified guests) grant nothing;
+		// only signed-in Meet users get room tokens, so every participant is a known user.
+		if (secret) {
+			throw errorUnauthorized();
+		}
+
 		const [secretSource, authenticatedSource, room] = await Promise.all([
 			secret ? this.resolvePermissionSourceFromSecret(roomId, secret) : Promise.resolve(undefined),
 			this.resolvePermissionSourceFromAuthenticatedUser(roomId),

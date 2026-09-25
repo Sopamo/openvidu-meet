@@ -255,7 +255,11 @@ export class ParticipantService {
 	 */
 	async setScreenShareEnabled(enabled: boolean): Promise<void> {
 		const options = this.getScreenCaptureOptions();
-		const track = await this._localParticipant()?.setScreenShareEnabled(enabled, options);
+		// comeet: one full-resolution layer instead of simulcast. With simulcast Chrome starts with only the
+		// half-resolution layer and adds 1080p once its bandwidth estimate allows (often 15+ s), which makes
+		// text on screen unreadable for viewers and the archive. Without it, Chrome lowers the frame rate
+		// instead of the resolution (screen shares use degradationPreference maintain-resolution).
+		const track = await this._localParticipant()?.setScreenShareEnabled(enabled, options, { simulcast: false });
 		if (enabled && track) {
 			// Set all videos to normal size when a local screen is shared
 			this.resetRemoteStreamsToNormalSize();
