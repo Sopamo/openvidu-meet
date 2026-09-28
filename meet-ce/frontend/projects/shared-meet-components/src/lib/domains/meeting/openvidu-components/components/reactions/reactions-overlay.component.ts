@@ -20,7 +20,7 @@ import { ReactionService } from '../../services/reaction/reaction.service';
 				<img
 					class="reaction-image"
 					[class.pixelated]="item.reaction.pixelated"
-					[src]="assets.reactionImage(item.reaction.file)"
+					[src]="assets.reactionAsset(item.reaction.file)"
 					[alt]="item.reaction.id"
 				/>
 				@if (item.participantName) {

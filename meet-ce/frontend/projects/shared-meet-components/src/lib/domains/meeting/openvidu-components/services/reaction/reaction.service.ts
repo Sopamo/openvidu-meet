@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { AssetsService } from '../../../../../shared/services/assets.service';
 import { ILogger } from '../../models/logger.model';
 import { DataTopic } from '../../models/data-topic.model';
 import { ActiveReaction, MeetingReaction, REACTIONS, ReactionSignalPayload } from '../../models/reaction.model';
 import { LoggerService } from '../logger/logger.service';
 import { ParticipantService } from '../participant/participant.service';
-import { playReactionSound } from './reaction-sounds';
 
 /**
  * @internal
@@ -27,6 +27,7 @@ export class ReactionService {
 
 	private readonly log: ILogger = inject(LoggerService).get('ReactionService');
 	private readonly participantService = inject(ParticipantService);
+	private readonly assets = inject(AssetsService);
 
 	private readonly _active = signal<ActiveReaction[]>([]);
 	/** Reactions currently floating on screen. */
@@ -36,6 +37,8 @@ export class ReactionService {
 	private lastSent = 0;
 	private lastSound = 0;
 	private audioContext?: AudioContext;
+	/** Decoded sound effects, loaded on first use. */
+	private readonly sounds = new Map<string, Promise<AudioBuffer | undefined>>();
 
 	/** Send a reaction to everyone (and show it locally). */
 	async send(id: string): Promise<void> {
@@ -71,19 +74,41 @@ export class ReactionService {
 		};
 		this._active.update((list) => [...list, item].slice(-ReactionService.MAX_ON_SCREEN));
 		setTimeout(() => this._active.update((list) => list.filter((r) => r.key !== item.key)), duration);
-		this.playSound(reaction.id);
+		this.playSound(reaction);
 	}
 
-	private playSound(id: string): void {
+	private playSound(reaction: MeetingReaction): void {
 		const now = Date.now();
 		if (now - this.lastSound < ReactionService.SOUND_INTERVAL) return;
 		this.lastSound = now;
 		try {
-			this.audioContext ??= new AudioContext();
-			if (this.audioContext.state === 'suspended') void this.audioContext.resume();
-			playReactionSound(this.audioContext, id);
+			const context = (this.audioContext ??= new AudioContext());
+			if (context.state === 'suspended') void context.resume();
+			void this.loadSound(context, reaction).then((buffer) => {
+				if (!buffer) return;
+				const source = context.createBufferSource();
+				source.buffer = buffer;
+				source.connect(context.destination);
+				source.start();
+			});
 		} catch (error) {
 			this.log.w('Could not play reaction sound', error);
 		}
+	}
+
+	private loadSound(context: AudioContext, reaction: MeetingReaction): Promise<AudioBuffer | undefined> {
+		let sound = this.sounds.get(reaction.id);
+		if (!sound) {
+			sound = fetch(this.assets.reactionAsset(reaction.sound))
+				.then((response) => response.arrayBuffer())
+				.then((data) => context.decodeAudioData(data))
+				.catch((error) => {
+					this.log.w(`Could not load reaction sound ${reaction.sound}`, error);
+					this.sounds.delete(reaction.id);
+					return undefined;
+				});
+			this.sounds.set(reaction.id, sound);
+		}
+		return sound;
 	}
 }

@@ -40,7 +40,7 @@ import { ReactionService } from '../../services/reaction/reaction.service';
 						(click)="reactionService.send(reaction.id)"
 					>
 						<img
-							[src]="assets.reactionImage(reaction.file)"
+							[src]="assets.reactionAsset(reaction.file)"
 							[alt]="reaction.id"
 							[class.pixelated]="reaction.pixelated"
 						/>

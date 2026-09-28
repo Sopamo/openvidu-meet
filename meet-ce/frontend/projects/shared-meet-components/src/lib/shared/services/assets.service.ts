@@ -63,8 +63,8 @@ export class AssetsService {
 
 	// ── Reactions ───────────────────────────────────────────────────────────
 
-	/** Image of a meeting reaction (see REACTIONS). */
-	reactionImage(file: string): string {
+	/** Image or sound file of a meeting reaction (see REACTIONS). */
+	reactionAsset(file: string): string {
 		return this.resolve(`assets/reactions/${file}`);
 	}
 
