@@ -71,8 +71,11 @@ export class ParticipantPanelItemComponent {
 	});
 
 	/** Local playback volume of this (remote) participant, see {@link ParticipantVolumeService}. */
-	readonly maxVolume = ParticipantVolumeService.MAX;
-	readonly volumeStep = ParticipantVolumeService.STEP;
+	// The sliders work in whole percent: a fractional value would be snapped to the default step of 1
+	// when a slider is created (e.g. the tile controls on every hover) before its step is applied.
+	readonly maxPercent = ParticipantVolumeService.MAX * 100;
+	readonly stepPercent = ParticipantVolumeService.STEP * 100;
+	readonly volumePercent = computed(() => Math.round(this.volume() * 100));
 	readonly volume = computed(() => {
 		const identity = this.participantInput()?.identity;
 		return identity ? (this.volumeService.volumes()[identity] ?? 1) : 1;
@@ -82,8 +85,12 @@ export class ParticipantPanelItemComponent {
 		return v === 0 ? 'volume_off' : v < 1 ? 'volume_down' : 'volume_up';
 	});
 
-	formatVolume(value: number): string {
-		return `${Math.round(value * 100)}%`;
+	formatPercent(percent: number): string {
+		return `${Math.round(percent)}%`;
+	}
+
+	setVolumePercent(percent: number | string) {
+		this.setVolume(Number(percent) / 100);
 	}
 
 	setVolume(value: number | string) {

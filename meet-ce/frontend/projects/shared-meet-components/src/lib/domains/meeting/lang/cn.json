@@ -14,6 +14,7 @@
 		"BACKGROUND": "背景效果"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "发送表情回应",
 		"MUTE_AUDIO": "将你的音频静音",
 		"UNMUTE_AUDIO": "取消音频静音",
 		"STOP_VIDEO": "停止视频",

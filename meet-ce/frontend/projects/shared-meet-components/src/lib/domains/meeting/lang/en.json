@@ -14,6 +14,7 @@
 		"DISCONNECTED_SUBTITLE": "The session has ended"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "Send a reaction",
 		"MUTE_AUDIO": "Mute your audio",
 		"UNMUTE_AUDIO": "Unmute your audio",
 		"STOP_VIDEO": "Stop your video",

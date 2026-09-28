@@ -6,6 +6,7 @@ import {
 	MeetSignalType
 } from '@openvidu-meet/typings';
 import { DataTopic } from '../../models/data-topic.model';
+import { ReactionSignalPayload } from '../../models/reaction.model';
 import { ParticipantLeftEvent, ParticipantLeftReason } from '../../models/participant.model';
 import {
 	ConnectionQuality,
@@ -24,6 +25,7 @@ import {
 import { safeJsonParse } from '../../utils/utils';
 import { ActionService } from '../action/action.service';
 import { ChatService } from '../chat/chat.service';
+import { ReactionService } from '../reaction/reaction.service';
 import { OpenViduComponentsConfigService } from '../config/directive-config.service';
 import { LoggerService } from '../logger/logger.service';
 import { OpenViduService } from '../openvidu/openvidu.service';
@@ -41,6 +43,7 @@ export interface SessionRoomEventCallbacks {
 export class SessionRoomEventsService {
 	private readonly actionService = inject(ActionService);
 	private readonly chatService = inject(ChatService);
+	private readonly reactionService = inject(ReactionService);
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	private readonly loggerSrv = inject(LoggerService);
 	private readonly openviduService = inject(OpenViduService);
@@ -236,6 +239,10 @@ export class SessionRoomEventsService {
 			case DataTopic.CHAT: {
 				const { message } = event as MeetingChatSignalPayload;
 				this.chatService.addRemoteMessage(message, participantName);
+				break;
+			}
+			case DataTopic.REACTION: {
+				this.reactionService.receive(event as ReactionSignalPayload, participantName);
 				break;
 			}
 			case MeetSignalType.MEET_RECORDING_UPDATED: {

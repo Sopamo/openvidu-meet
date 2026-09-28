@@ -81,6 +81,9 @@
 	}
 }
 
+<!-- comeet: reactions -->
+<ov-reaction-picker [disabled]="isConnectionLost()" [mobile]="isMobileView()" />
+
 <!-- Additional buttons injection from parent component (desktop/tablet only) -->
 @if (showAdditionalButtonsOutside() && additionalButtonsPosition() === 'beforeMenu') {
 	<ng-container

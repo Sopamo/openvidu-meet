@@ -31,6 +31,8 @@
 				<div id="layout-container" #layoutContainer>
 					<ng-container *ngTemplateOutlet="templateRegistry.layout() ?? null" />
 				</div>
+				<!-- comeet: floating reactions -->
+				<ov-reactions-overlay />
 			</mat-sidenav-content>
 		</mat-sidenav-container>
 

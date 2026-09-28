@@ -118,17 +118,17 @@
 						<mat-slider
 							class="volume-slider"
 							[min]="0"
-							[max]="maxVolume"
-							[step]="volumeStep"
-							[displayWith]="formatVolume"
+							[max]="maxPercent"
+							[step]="stepPercent"
+							[displayWith]="formatPercent"
 							discrete
 							[matTooltip]="'PANEL.PARTICIPANTS.VOLUME' | translate"
 						>
 							<input
 								matSliderThumb
 								id="volume-slider"
-								[value]="volume()"
-								(input)="setVolume($any($event.target).value)"
+								[value]="volumePercent()"
+								(input)="setVolumePercent($any($event.target).value)"
 								[attr.aria-label]="('PANEL.PARTICIPANTS.VOLUME' | translate) + ' ' + participantDisplayName()"
 							/>
 						</mat-slider>
@@ -140,7 +140,7 @@
 							[disabled]="volume() === 1"
 							[matTooltip]="'PANEL.PARTICIPANTS.RESET_VOLUME' | translate"
 						>
-							{{ formatVolume(volume()) }}
+							{{ formatPercent(volumePercent()) }}
 						</button>
 					</div>
 				}

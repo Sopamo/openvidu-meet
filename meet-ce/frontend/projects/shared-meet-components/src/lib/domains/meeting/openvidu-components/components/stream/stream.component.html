@@ -133,6 +133,37 @@
 								<mat-icon id="muted-forcibly">volume_up</mat-icon>
 							}
 						</button>
+						<!-- comeet: local playback volume (only affects what you hear; same value as the participants panel) -->
+						<div class="volume-control" [class.changed]="volume() !== 1">
+							<mat-slider
+								class="tile-volume-slider"
+								[min]="0"
+								[max]="maxPercent"
+								[step]="stepPercent"
+								[displayWith]="formatPercent"
+								discrete
+								[disabled]="stream.isMutedForcibly"
+								[matTooltip]="'PANEL.PARTICIPANTS.VOLUME' | translate"
+							>
+								<input
+									matSliderThumb
+									id="tile-volume-slider"
+									[value]="volumePercent()"
+									(input)="setVolumePercent($any($event.target).value)"
+									[attr.aria-label]="('PANEL.PARTICIPANTS.VOLUME' | translate) + ' ' + stream.participant.name"
+								/>
+							</mat-slider>
+							<button
+								type="button"
+								class="volume-value"
+								id="tile-volume-reset-btn"
+								(click)="resetVolume()"
+								[disabled]="volume() === 1"
+								[matTooltip]="'PANEL.PARTICIPANTS.RESET_VOLUME' | translate"
+							>
+								{{ formatPercent(volumePercent()) }}
+							</button>
+						</div>
 					}
 					@if (stream.participant.isLocal && stream.isCameraStream) {
 						<button

@@ -61,6 +61,13 @@ export class AssetsService {
 		return this.resolve('assets/sounds/chat-message.mp3');
 	}
 
+	// ── Reactions ───────────────────────────────────────────────────────────
+
+	/** Image of a meeting reaction (see REACTIONS). */
+	reactionImage(file: string): string {
+		return this.resolve(`assets/reactions/${file}`);
+	}
+
 	// ── Workers ───────────────────────────────────────────────────────────────
 
 	/** LiveKit client E2EE worker module. */

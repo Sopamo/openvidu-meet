@@ -19,13 +19,14 @@ import { RecordingState } from '../../../models/recording.model';
 import { ToolbarAdditionalButtonsPosition } from '../../../models/toolbar.model';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { ViewportService } from '../../../services/viewport/viewport.service';
+import { ReactionPickerComponent } from '../../reactions/reaction-picker.component';
 
 /**
  * @internal
  */
 @Component({
 	selector: 'ov-toolbar-media-buttons',
-	imports: [CommonModule, MatButtonModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule, TranslatePipe],
+	imports: [CommonModule, MatButtonModule, MatDividerModule, MatIconModule, MatMenuModule, MatTooltipModule, TranslatePipe, ReactionPickerComponent],
 	templateUrl: './toolbar-media-buttons.component.html',
 	styleUrl: './toolbar-media-buttons.component.scss',
 	changeDetection: ChangeDetectionStrategy.OnPush,

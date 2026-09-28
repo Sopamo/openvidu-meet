@@ -14,6 +14,7 @@
 		"BACKGROUND": "Hintergrund-Effekte"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "Reaktion senden",
 		"MUTE_AUDIO": "Stummschalten des Audios",
 		"UNMUTE_AUDIO": "Stummschaltung für Audio aufheben",
 		"STOP_VIDEO": "Dein Video stoppen",

@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AvatarView, DEFAULT_AVATAR_VIEW } from '../../models/avatar-view.model';
 import { ParticipantStream } from '../../models/participant.model';
@@ -20,6 +21,7 @@ import { CdkOverlayService } from '../../services/cdk-overlay/cdk-overlay.servic
 import { OpenViduComponentsConfigService } from '../../services/config/directive-config.service';
 import { SmartLayoutService } from '../../services/layout/smart-layout.service';
 import { ParticipantService } from '../../services/participant/participant.service';
+import { ParticipantVolumeService } from '../../services/participant/participant-volume.service';
 import { AudioWaveComponent } from '../audio-wave/audio-wave.component';
 import { ConnectionQualityIndicatorComponent } from '../connection-quality-indicator/connection-quality-indicator.component';
 import { VideoElementComponent } from '../video-element/video-element.component';
@@ -33,6 +35,7 @@ import { VideoElementComponent } from '../video-element/video-element.component'
 	imports: [
 		MatButtonModule,
 		MatIconModule,
+		MatSliderModule,
 		MatTooltipModule,
 		TranslatePipe,
 		AudioWaveComponent,
@@ -47,6 +50,7 @@ import { VideoElementComponent } from '../video-element/video-element.component'
 export class StreamComponent implements OnDestroy {
 	private readonly layoutService = inject(SmartLayoutService);
 	private readonly participantService = inject(ParticipantService);
+	private readonly volumeService = inject(ParticipantVolumeService);
 	private readonly cdkSrv = inject(CdkOverlayService);
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	readonly stream = input<ParticipantStream | undefined>(undefined);
@@ -144,6 +148,35 @@ export class StreamComponent implements OnDestroy {
 			this.participantService.toggleLocalVideoFloating(sid);
 			this.layoutService.update();
 		}
+	}
+
+	/** comeet: local playback volume of this participant, shared with the participants panel. */
+	// The sliders work in whole percent: a fractional value would be snapped to the default step of 1
+	// when a slider is created (e.g. the tile controls on every hover) before its step is applied.
+	readonly maxPercent = ParticipantVolumeService.MAX * 100;
+	readonly stepPercent = ParticipantVolumeService.STEP * 100;
+	readonly volumePercent = computed(() => Math.round(this.volume() * 100));
+	readonly volume = computed(() => {
+		const identity = this.stream()?.participant?.identity;
+		return identity ? (this.volumeService.volumes()[identity] ?? 1) : 1;
+	});
+
+	formatPercent(percent: number): string {
+		return `${Math.round(percent)}%`;
+	}
+
+	setVolumePercent(percent: number | string) {
+		this.setVolume(Number(percent) / 100);
+	}
+
+	setVolume(value: number | string) {
+		const identity = this.stream()?.participant?.identity;
+		if (identity) this.volumeService.setVolume(identity, Number(value));
+	}
+
+	resetVolume() {
+		const identity = this.stream()?.participant?.identity;
+		if (identity) this.volumeService.resetVolume(identity);
 	}
 
 	toggleMuteForcibly() {

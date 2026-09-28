@@ -14,6 +14,7 @@
 		"BACKGROUND": "Effetti di sfondo"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "Invia una reazione",
 		"MUTE_AUDIO": "Disattiva l'audio",
 		"UNMUTE_AUDIO": "Attiva l'audio",
 		"STOP_VIDEO": "Ferma il tuo video",

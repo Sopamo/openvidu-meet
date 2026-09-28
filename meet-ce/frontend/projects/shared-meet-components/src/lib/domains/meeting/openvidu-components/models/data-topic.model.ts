@@ -9,5 +9,6 @@ export enum DataTopic {
 	RECORDING_STOPPING = 'recordingStopping',
 	RECORDING_STOPPED = 'recordingStopped',
 	RECORDING_FAILED = 'recordingFailed',
-	ROOM_STATUS = 'roomStatus'
+	ROOM_STATUS = 'roomStatus',
+	REACTION = 'reaction'
 }

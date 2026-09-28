@@ -14,6 +14,7 @@
 		"BACKGROUND": "背景効果"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "リアクションを送る",
 		"MUTE_AUDIO": "オーディオをミュートする",
 		"UNMUTE_AUDIO": "オーディオをミュートしない",
 		"STOP_VIDEO": "あなたのビデオを停止",

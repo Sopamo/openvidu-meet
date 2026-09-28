@@ -33,6 +33,7 @@ export * from './directives/template/openvidu-components-angular.directive';
 export * from './directives/template/openvidu-components-angular.directive.module';
 // Models
 export * from './models/data-topic.model';
+export * from './models/reaction.model';
 export * from './models/device.model';
 export * from './models/lang.model';
 export * from './models/layout/layout.model';
@@ -59,6 +60,7 @@ export * from './services/openvidu/openvidu.service';
 export * from './services/panel/panel.service';
 export * from './services/participant/participant.service';
 export * from './services/participant/participant-volume.service';
+export * from './services/reaction/reaction.service';
 export * from './services/storage/storage.service';
 export * from './services/template/template-registry.service';
 export * from './services/theme/theme.service';

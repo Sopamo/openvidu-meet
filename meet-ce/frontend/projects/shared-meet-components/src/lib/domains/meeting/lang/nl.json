@@ -14,6 +14,7 @@
 		"BACKGROUND": "Achtergrondeffecten"
 	},
 	"TOOLBAR": {
+		"REACTIONS": "Reactie sturen",
 		"MUTE_AUDIO": "Audio dempen",
 		"UNMUTE_AUDIO": "Audio niet meer dempen",
 		"STOP_VIDEO": "Stop je video",

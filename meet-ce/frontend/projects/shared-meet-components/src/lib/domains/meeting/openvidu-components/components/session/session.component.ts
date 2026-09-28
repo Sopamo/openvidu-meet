@@ -36,6 +36,7 @@ import { ViewportService } from '../../services/viewport/viewport.service';
 import { VirtualBackgroundService } from '../../services/virtual-background/virtual-background.service';
 import { RuntimeConfigService } from '../../../../../shared/services/runtime-config.service';
 import { LandscapeWarningComponent } from '../landscape-warning/landscape-warning.component';
+import { ReactionsOverlayComponent } from '../reactions/reactions-overlay.component';
 
 /**
  * @internal
@@ -43,7 +44,7 @@ import { LandscapeWarningComponent } from '../landscape-warning/landscape-warnin
 
 @Component({
 	selector: 'ov-session',
-	imports: [CommonModule, MatProgressSpinnerModule, MatSidenavModule, TranslatePipe, LandscapeWarningComponent],
+	imports: [CommonModule, MatProgressSpinnerModule, MatSidenavModule, TranslatePipe, LandscapeWarningComponent, ReactionsOverlayComponent],
 	templateUrl: './session.component.html',
 	styleUrls: ['./session.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
