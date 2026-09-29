@@ -94,7 +94,13 @@
 			"AUDIO": "Audio",
 			"LANGUAGE": "Language",
 			"DISABLED_VIDEO": "Video disabled",
-			"THEME": "Theme"
+			"THEME": "Theme",
+			"SPATIAL_AUDIO": "Spatial audio",
+			"SPATIAL_AUDIO_OFF": "Off",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (with room)",
+			"SPATIAL_AUDIO_HINT": "Each voice comes from where the person is on screen; you sit in the middle. Use headphones.",
+			"SPATIAL_AUDIO_DOCS": "Documentation"
 		},
 		"BACKGROUND": {
 			"TITLE": "Background effects",

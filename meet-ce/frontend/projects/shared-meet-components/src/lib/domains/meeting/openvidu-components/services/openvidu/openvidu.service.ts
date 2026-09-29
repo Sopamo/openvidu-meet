@@ -21,6 +21,7 @@ import { LivekitAdapterInterface } from '../livekit-adapter/interfaces/livekit.a
 import { LivekitAdapterFactory } from '../livekit-adapter/livekit-adapter.factory';
 import { LoggerService } from '../logger/logger.service';
 import { StorageService } from '../storage/storage.service';
+import { SpatialAudioService } from '../spatial-audio/spatial-audio.service';
 import { VideoTrackProcessorService } from '../track-processor/video-track-processor.service';
 import { AssetsService } from '../../../../../shared/services/assets.service';
 
@@ -35,6 +36,7 @@ export class OpenViduService {
 	private readonly livekitAdapter: LivekitAdapterInterface = this.livekitAdapterFactory.createLiveKitAdapter();
 	private readonly videoTrackProcessorService = inject(VideoTrackProcessorService);
 	private readonly assets = inject(AssetsService);
+	private readonly spatialAudioService = inject(SpatialAudioService);
 
 	private room: OVRoom | undefined = undefined;
 	private keyProvider: ExternalE2EEKeyProvider | undefined;
@@ -106,8 +108,9 @@ export class OpenViduService {
 			stopLocalTrackOnUnpublish: true,
 			disconnectOnPageLeave: true,
 			// comeet: remote audio plays through Web Audio, so each participant's local volume
-			// (ParticipantVolumeService) can also boost quiet speakers above 100%.
-			webAudioMix: true
+			// (ParticipantVolumeService) can also boost quiet speakers above 100%, and voices can be
+			// spatialised (SpatialAudioService, whose nodes must share this AudioContext).
+			webAudioMix: { audioContext: this.spatialAudioService.audioContext }
 		};
 
 		// Configure E2EE if key is provided and keyProvider exists

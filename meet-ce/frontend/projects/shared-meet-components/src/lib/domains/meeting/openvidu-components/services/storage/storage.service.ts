@@ -16,7 +16,7 @@ import { LoggerService } from '../logger/logger.service';
  *   opened in several tabs with independent settings and no stale data is left behind — which is
  *   why this service carries no manual tab-cleanup logic.
  * - Every other key lives in `localStorage`, shared across all tabs of the same origin and kept
- *   until explicitly removed (devices, language, captions, theme, virtual background, participant volumes).
+ *   until explicitly removed (devices, language, captions, theme, virtual background, participant volumes, spatial audio).
  *
  * `MeetStorageService` extends this class to persist its own keys through {@link get}/{@link set}.
  */
@@ -123,6 +123,15 @@ export class StorageService {
 
 	setParticipantVolumes(volumes: Record<string, number>): void {
 		this.set(StorageKeys.PARTICIPANT_VOLUMES, volumes);
+	}
+
+	/** Local spatial audio mode ('off', 'panner' or 'resonance'); see SpatialAudioService. */
+	getSpatialAudioMode(): string | null {
+		return this.get<string>(StorageKeys.SPATIAL_AUDIO);
+	}
+
+	setSpatialAudioMode(mode: string): void {
+		this.set(StorageKeys.SPATIAL_AUDIO, mode);
 	}
 
 	/**

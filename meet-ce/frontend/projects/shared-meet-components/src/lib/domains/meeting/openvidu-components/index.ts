@@ -44,6 +44,7 @@ export * from './models/participant.model';
 export * from './models/recording.model';
 export * from './models/screen-zoom.model';
 export * from './models/theme.model';
+export * from './models/spatial-audio.model';
 export * from './models/toolbar.model';
 export * from './models/viewport.model';
 // Pipes
@@ -60,6 +61,7 @@ export * from './services/openvidu/openvidu.service';
 export * from './services/panel/panel.service';
 export * from './services/participant/participant.service';
 export * from './services/participant/participant-volume.service';
+export * from './services/spatial-audio/spatial-audio.service';
 export * from './services/reaction/reaction.service';
 export * from './services/storage/storage.service';
 export * from './services/template/template-registry.service';

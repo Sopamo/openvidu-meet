@@ -15,6 +15,7 @@ import { LayoutCalculator } from './layout-calculator.model';
 import { LayoutDimensionsCache } from './layout-dimensions-cache.model';
 import { elementHeight, elementWidth, readStyle, readStyleNumber } from './layout-dom.util';
 import { LayoutRenderer } from './layout-renderer.model';
+import { calculateSpatialLayout } from './spatial-layout.model';
 import { ElementDimensions, ExtendedLayoutOptions, LAYOUT_CONSTANTS, LayoutClass, OpenViduLayoutOptions } from './layout-types.model';
 
 /**
@@ -110,6 +111,22 @@ export class OpenViduLayout {
 		const selector = `#${this.layoutContainer.id}>*:not(.${LayoutClass.IGNORED_ELEMENT}):not(.${LayoutClass.FLOATING_ELEMENT})`;
 		const children = Array.from(this.layoutContainer.querySelectorAll<HTMLElement>(selector));
 		const elements = children.map((element) => this.describeElement(element));
+
+		if (this.opts.spatial) {
+			const { boxes, listener } = calculateSpatialLayout(
+				containerWidth,
+				containerHeight,
+				children.map((element, i) => ({
+					isLocalCamera: element.classList.contains('local_participant'),
+					isScreen: element.classList.contains('OV_screen'),
+					isPinned: !!elements[i].big,
+					ratio: elements[i].width / elements[i].height
+				}))
+			);
+			this.renderer.renderLayout(this.layoutContainer, boxes, children, this.opts.animate);
+			this.opts.onSpatialLayout?.(children, boxes, listener, containerWidth, containerHeight);
+			return;
+		}
 
 		const layout = this.calculator.calculateLayout(extendedOpts, elements);
 		this.renderer.renderLayout(this.layoutContainer, layout.boxes, children, this.opts.animate);

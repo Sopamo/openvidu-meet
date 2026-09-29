@@ -94,7 +94,13 @@
 			"AUDIO": "Audio",
 			"LANGUAGE": "Taal",
 			"DISABLED_VIDEO": "Geen video",
-			"THEME": "Thema"
+			"THEME": "Thema",
+			"SPATIAL_AUDIO": "Ruimtelijk geluid",
+			"SPATIAL_AUDIO_OFF": "Uit",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (met ruimte)",
+			"SPATIAL_AUDIO_HINT": "Elke stem komt van waar de persoon op het scherm staat; jij zit in het midden. Gebruik een koptelefoon.",
+			"SPATIAL_AUDIO_DOCS": "Documentatie"
 		},
 		"BACKGROUND": {
 			"TITLE": "Achtergrondeffecten",

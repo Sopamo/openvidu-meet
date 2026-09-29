@@ -94,7 +94,13 @@
 			"AUDIO": "ऑडियो",
 			"LANGUAGE": "भाषा",
 			"DISABLED_VIDEO": "वीडियो अक्षम",
-			"THEME": "थीम"
+			"THEME": "थीम",
+			"SPATIAL_AUDIO": "स्थानिक ऑडियो",
+			"SPATIAL_AUDIO_OFF": "बंद",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (कमरे के साथ)",
+			"SPATIAL_AUDIO_HINT": "हर आवाज़ वहीं से आती है जहाँ व्यक्ति स्क्रीन पर है; आप बीच में हैं। हेडफ़ोन का उपयोग करें।",
+			"SPATIAL_AUDIO_DOCS": "दस्तावेज़"
 		},
 		"BACKGROUND": {
 			"TITLE": "पृष्ठभूमि प्रभाव",

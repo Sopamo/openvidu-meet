@@ -94,7 +94,13 @@
 			"AUDIO": "声音的",
 			"LANGUAGE": "语",
 			"DISABLED_VIDEO": "没有视频设备",
-			"THEME": "主题"
+			"THEME": "主题",
+			"SPATIAL_AUDIO": "空间音频",
+			"SPATIAL_AUDIO_OFF": "关闭",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio（含房间）",
+			"SPATIAL_AUDIO_HINT": "每个声音都来自该人在屏幕上的位置；你位于中间。请使用耳机。",
+			"SPATIAL_AUDIO_DOCS": "文档"
 		},
 		"BACKGROUND": {
 			"TITLE": "背景效果",

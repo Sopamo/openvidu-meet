@@ -18,6 +18,7 @@ import { ParticipantModel, ParticipantStream } from '../../../models/participant
 import { SmartLayoutService } from '../../../services/layout/smart-layout.service';
 import { ParticipantVolumeService } from '../../../services/participant/participant-volume.service';
 import { ParticipantService } from '../../../services/participant/participant.service';
+import { SpatialAudioService } from '../../../services/spatial-audio/spatial-audio.service';
 import { RemoteAudioTrack, Track } from '../../../services/livekit-adapter';
 import { HiddenParticipantsIndicatorComponent } from '../../hidden-participants-indicator/hidden-participants-indicator.component';
 import { BaseLayoutComponent } from '../base-layout.component';
@@ -26,6 +27,8 @@ interface PersistentAudioEntry {
 	element: HTMLAudioElement;
 	track: Track;
 	mounted: boolean;
+	/** Key of the stream in SpatialAudioService. */
+	spatialKey: string;
 }
 
 @Component({
@@ -43,6 +46,7 @@ export class SmartLayoutComponent implements OnDestroy {
 	readonly layoutService = inject(SmartLayoutService);
 	private readonly participantService = inject(ParticipantService);
 	private readonly volumeService = inject(ParticipantVolumeService);
+	private readonly spatialAudio = inject(SpatialAudioService);
 
 	/** `*ovLayoutAdditionalElements` directives projected from the parent. */
 	readonly projectedAdditionalElements = contentChildren(LayoutAdditionalElementsDirective);
@@ -271,7 +275,7 @@ export class SmartLayoutComponent implements OnDestroy {
 					element.setAttribute('data-participant', participant.identity);
 					element.setAttribute('data-source', stream.source);
 					track.attach(element);
-					entry = { element, track, mounted: false };
+					entry = { element, track, mounted: false, spatialKey: SpatialAudioService.key(participant.identity, stream.isScreenStream) };
 					this.audioElements.set(key, entry);
 				} else if (entry.track !== track) {
 					// Track re-publish under the same participant+source: swap the underlying
@@ -287,10 +291,11 @@ export class SmartLayoutComponent implements OnDestroy {
 				}
 
 				// Local mute and the per-participant volume both act on the track's playback gain (the
-				// element itself stays muted: with webAudioMix, audio is played through Web Audio).
+				// element itself stays muted: with webAudioMix, audio is played through Web Audio, where
+				// SpatialAudioService also places the voice if spatial audio is on).
 				const volume = stream.isMutedForcibly ? 0 : this.volumeService.volumeOf(participant.identity);
 				if (track instanceof RemoteAudioTrack) {
-					track.setVolume(volume);
+					this.spatialAudio.play(SpatialAudioService.key(participant.identity, stream.isScreenStream), track, volume);
 				} else {
 					entry.element.muted = stream.isMutedForcibly;
 				}
@@ -306,6 +311,7 @@ export class SmartLayoutComponent implements OnDestroy {
 				entry.track.detach(entry.element);
 				entry.element.remove();
 				this.audioElements.delete(key);
+				this.spatialAudio.release(entry.spatialKey);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ParticipantModel, ParticipantProperties } from '../../models/participant.model';
 import { OpenViduComponentsConfigService } from '../config/directive-config.service';
 import { GlobalConfigService } from '../config/global-config.service';
@@ -17,6 +17,7 @@ import { DeviceService } from '../device/device.service';
 import { ConnectionQuality, Track, VideoPresets } from '../livekit-adapter';
 import { LoggerService } from '../logger/logger.service';
 import { OpenViduService } from '../openvidu/openvidu.service';
+import { SpatialAudioService } from '../spatial-audio/spatial-audio.service';
 import { StorageService } from '../storage/storage.service';
 
 @Injectable({
@@ -30,6 +31,25 @@ export class ParticipantService {
 	private readonly deviceSrv = inject(DeviceService);
 	private readonly e2eeService = inject(E2eeService);
 	private readonly log = inject(LoggerService).get('ParticipantService');
+	private readonly spatialAudio = inject(SpatialAudioService);
+
+	/**
+	 * comeet: the spatial layout places the local camera itself (centre, or bottom-right during a screen share),
+	 * so it is docked while spatial audio is on and floats again, as usual with others present, when it is off.
+	 */
+	private readonly spatialAudioFloatingEffect = (() => {
+		let wasEnabled: boolean | undefined;
+		return effect(() => {
+			const enabled = this.spatialAudio.enabled();
+			if (wasEnabled !== undefined && enabled !== wasEnabled) {
+				untracked(() => {
+					if (enabled) this.dockLocalCameraVideo();
+					else if (this._remoteParticipants().length > 0) this.floatLocalCameraVideo();
+				});
+			}
+			wasEnabled = enabled;
+		});
+	})();
 
 	/**
 	 * Local participant Signal for reactive programming with Angular signals.
@@ -402,7 +422,7 @@ export class ParticipantService {
 	 */
 	floatLocalCameraVideo(): void {
 		const local = this._localParticipant();
-		if (!local || local.isFloating) return;
+		if (!local || local.isFloating || this.spatialAudio.enabled()) return;
 		const cameraStream = local.streams().find((s) => s.isCameraStream);
 		if (cameraStream) local.toggleVideoFloating(cameraStream.streamId);
 	}

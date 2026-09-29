@@ -100,6 +100,16 @@
 							</mat-list>
 						</div>
 					}
+					<div class="spatial-audio-section">
+						<mat-list>
+							<mat-list-item class="spatial-audio-selector">
+								<mat-icon matListItemIcon class="material-symbols-outlined">spatial_audio</mat-icon>
+								<div matListItemTitle>{{ 'PANEL.SETTINGS.SPATIAL_AUDIO' | translate }}</div>
+								<ov-spatial-audio-selector matListItemMeta />
+							</mat-list-item>
+						</mat-list>
+						<ov-spatial-audio-hint />
+					</div>
 					<!-- Additional elements injected via directive -->
 					@if (generalAdditionalElementsTemplate) {
 						<div class="additional-elements-section">

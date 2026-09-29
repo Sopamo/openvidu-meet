@@ -1,7 +1,9 @@
 import { effect, inject, Injectable } from '@angular/core';
-import { LayoutAlignment, LayoutClass, OpenViduLayout, OpenViduLayoutOptions } from '../../models/layout/layout.model';
+import { LayoutAlignment, LayoutBox, LayoutClass, OpenViduLayout, OpenViduLayoutOptions } from '../../models/layout/layout.model';
+import { SpatialPlacement } from '../../models/spatial-audio.model';
 import { ILogger } from '../../models/logger.model';
 import { LoggerService } from '../logger/logger.service';
+import { SpatialAudioService } from '../spatial-audio/spatial-audio.service';
 import { ViewportService } from '../viewport/viewport.service';
 
 /**
@@ -12,6 +14,7 @@ import { ViewportService } from '../viewport/viewport.service';
 })
 export class BaseLayoutService {
 	private readonly viewportSrv = inject(ViewportService);
+	private readonly spatialAudio = inject(SpatialAudioService);
 
 	layoutContainer: HTMLElement | undefined = undefined;
 	protected openviduLayout: OpenViduLayout | undefined;
@@ -90,9 +93,36 @@ export class BaseLayoutService {
 			bigMaxWidth: Infinity,
 			bigMaxHeight: Infinity,
 			scaleLastRow: true,
-			bigScaleLastRow: true
+			bigScaleLastRow: true,
+			spatial: this.spatialAudio.enabled(),
+			onSpatialLayout: this.onSpatialLayout
 		};
 	}
+
+	/**
+	 * comeet: after a spatial layout pass, tells {@link SpatialAudioService} where each remote stream sits
+	 * relative to the listener (the local camera, or the screen share in focus).
+	 */
+	private readonly onSpatialLayout = (
+		elements: HTMLElement[],
+		boxes: LayoutBox[],
+		listener: { x: number; y: number },
+		width: number,
+		height: number
+	) => {
+		const placements = new Map<string, SpatialPlacement>();
+		elements.forEach((element, i) => {
+			const box = boxes[i];
+			if (!box || !element.id.startsWith('participant-') || element.classList.contains('local_participant')) return;
+			const identity = element.id.slice('participant-'.length);
+			const isScreen = element.classList.contains('OV_screen');
+			placements.set(SpatialAudioService.key(identity, isScreen), {
+				x: (box.left + box.width / 2 - listener.x) / (width / 2),
+				y: (listener.y - (box.top + box.height / 2)) / (height / 2)
+			});
+		});
+		this.spatialAudio.setPlacements(placements);
+	};
 
 	protected getResponsiveRatios() {
 		const isMobile = this.viewportSrv.isMobile();
@@ -196,6 +226,7 @@ export class BaseLayoutService {
 
 	protected hasSignificantChanges(oldOptions: OpenViduLayoutOptions, newOptions: OpenViduLayoutOptions): boolean {
 		if (!oldOptions) return true;
+		if (oldOptions.spatial !== newOptions.spatial) return true;
 
 		const significantProps: (keyof OpenViduLayoutOptions)[] = [
 			'maxRatio',

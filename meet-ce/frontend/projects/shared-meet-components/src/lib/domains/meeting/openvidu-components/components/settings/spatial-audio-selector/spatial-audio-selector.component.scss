@@ -1,0 +1,14 @@
+@use '../selector-shared' as shared;
+
+:host {
+	display: inline-block;
+	.spatial-audio-selector-container {
+		.spatial-audio-selector-button {
+			@include shared.selector-button('spatial-audio-icon', 'spatial-audio-name', 'expand-icon');
+		}
+	}
+}
+
+::ng-deep .spatial-audio-menu.mat-mdc-menu-panel {
+	@include shared.selector-menu('spatial-audio-option', 'spatial-audio-option-name');
+}

@@ -94,7 +94,13 @@
 			"AUDIO": "オーディオ",
 			"LANGUAGE": "言語",
 			"DISABLED_VIDEO": "ビデオを無効にする",
-			"THEME": "テーマ"
+			"THEME": "テーマ",
+			"SPATIAL_AUDIO": "空間オーディオ",
+			"SPATIAL_AUDIO_OFF": "オフ",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio（部屋あり）",
+			"SPATIAL_AUDIO_HINT": "各参加者の声は画面上の位置から聞こえます。あなたは中央にいます。ヘッドホンを使用してください。",
+			"SPATIAL_AUDIO_DOCS": "ドキュメント"
 		},
 		"BACKGROUND": {
 			"TITLE": "背景効果",

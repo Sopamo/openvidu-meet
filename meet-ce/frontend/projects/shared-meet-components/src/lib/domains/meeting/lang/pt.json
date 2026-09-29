@@ -94,7 +94,13 @@
 			"AUDIO": "Áudio",
 			"LANGUAGE": "Linguagem",
 			"DISABLED_VIDEO": "Vídeo desativado",
-			"THEME": "Tema"
+			"THEME": "Tema",
+			"SPATIAL_AUDIO": "Áudio espacial",
+			"SPATIAL_AUDIO_OFF": "Desligado",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (com sala)",
+			"SPATIAL_AUDIO_HINT": "Cada voz vem de onde a pessoa está na tela; você fica no centro. Use fones de ouvido.",
+			"SPATIAL_AUDIO_DOCS": "Documentação"
 		},
 		"BACKGROUND": {
 			"TITLE": "Efeitos de fundo",

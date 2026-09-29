@@ -94,7 +94,13 @@
 			"AUDIO": "Audio",
 			"LANGUAGE": "Sprache",
 			"DISABLED_VIDEO": "Video deaktiviert",
-			"THEME": "Thema"
+			"THEME": "Thema",
+			"SPATIAL_AUDIO": "Räumlicher Klang",
+			"SPATIAL_AUDIO_OFF": "Aus",
+			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
+			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (mit Raum)",
+			"SPATIAL_AUDIO_HINT": "Jede Stimme kommt von dort, wo die Person auf dem Bildschirm ist; Sie sitzen in der Mitte. Verwenden Sie Kopfhörer.",
+			"SPATIAL_AUDIO_DOCS": "Dokumentation"
 		},
 		"BACKGROUND": {
 			"TITLE": "Hintergrund-Effekte",

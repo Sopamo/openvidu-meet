@@ -28,6 +28,10 @@ import { ViewportService } from '../../../services/viewport/viewport.service';
 import { AudioDevicesComponent } from '../../settings/audio-devices/audio-devices.component';
 import { LangSelectorComponent } from '../../settings/lang-selector/lang-selector.component';
 import { ParticipantNameInputComponent } from '../../settings/participant-name-input/participant-name-input.component';
+import {
+	SpatialAudioHintComponent,
+	SpatialAudioSelectorComponent
+} from '../../settings/spatial-audio-selector/spatial-audio-selector.component';
 import { ThemeSelectorComponent } from '../../settings/theme-selector/theme-selector.component';
 import { VideoDevicesComponent } from '../../settings/video-devices/video-devices.component';
 
@@ -47,6 +51,8 @@ import { VideoDevicesComponent } from '../../settings/video-devices/video-device
 		ParticipantNameInputComponent,
 		LangSelectorComponent,
 		ThemeSelectorComponent,
+		SpatialAudioSelectorComponent,
+		SpatialAudioHintComponent,
 		VideoDevicesComponent,
 		AudioDevicesComponent
 	],
