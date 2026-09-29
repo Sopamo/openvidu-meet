@@ -98,8 +98,15 @@
 			"SPATIAL_AUDIO": "स्थानिक ऑडियो",
 			"SPATIAL_AUDIO_OFF": "बंद",
 			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
-			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (कमरे के साथ)",
-			"SPATIAL_AUDIO_HINT": "हर आवाज़ वहीं से आती है जहाँ व्यक्ति स्क्रीन पर है; आप बीच में हैं। हेडफ़ोन का उपयोग करें।",
+			"SPATIAL_AUDIO_THK": "TH Köln HRTF (KU100)",
+			"SPATIAL_AUDIO_HINT": "हर आवाज़ वहीं से आती है जहाँ व्यक्ति आपकी स्क्रीन पर है, 30\" मॉनिटर से 60 सेमी दूर से देखने पर: मानो वे आपके दफ़्तर में स्क्रीन के पीछे बैठे हों। हेडफ़ोन का उपयोग करें।",
+			"SPATIAL_AUDIO_SPREAD": "फैलाव",
+			"SPATIAL_AUDIO_SPREAD_HINT": "1× भौतिक रूप से सटीक है (पड़ोसियों के बीच कुछ डिग्री); अधिक करने पर दिशाएँ स्पष्ट होती हैं।",
+			"HEAD_TRACKING": "हेड ट्रैकिंग",
+			"HEAD_TRACKING_HINT": "कैमरे से आपके सिर का अनुसरण करता है, ताकि सिर घुमाने पर आवाज़ें अपनी जगह रहें। वीडियो का विश्लेषण केवल आपके ब्राउज़र में होता है।",
+			"HEAD_TRACKING_ACTIVE": "सक्रिय",
+			"HEAD_TRACKING_SEARCHING": "आपका चेहरा खोजा जा रहा है…",
+			"HEAD_TRACKING_ERROR": "कैमरा उपलब्ध नहीं",
 			"SPATIAL_AUDIO_DOCS": "दस्तावेज़"
 		},
 		"BACKGROUND": {

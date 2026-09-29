@@ -8,24 +8,37 @@ export enum SpatialAudioMode {
 	OFF = 'off',
 	/** Web Audio `PannerNode` with the browser's built-in HRTF. */
 	PANNER = 'panner',
-	/** Google Resonance Audio: ambisonic HRTF rendering plus a small virtual room (early reflections, reverb). */
-	RESONANCE = 'resonance'
+	/** Measured HRTFs of TH Köln (Neumann KU100 dummy head, source 1.5 m away), convolved per voice. */
+	THK = 'thk'
 }
 
-/** @internal Documentation of the rendering engines, linked from the settings panel. */
-export const SPATIAL_AUDIO_DOCS: Record<Exclude<SpatialAudioMode, SpatialAudioMode.OFF>, string> = {
-	[SpatialAudioMode.PANNER]: 'https://developer.mozilla.org/en-US/docs/Web/API/PannerNode',
-	[SpatialAudioMode.RESONANCE]: 'https://resonance-audio.github.io/resonance-audio/develop/web/getting-started.html'
-};
+/** @internal Documentation linked from the settings panel. */
+export const SPATIAL_AUDIO_DOCS = {
+	panner: 'https://developer.mozilla.org/en-US/docs/Web/API/PannerNode',
+	thk: 'https://sofacoustics.org/data/database/thk/',
+	headTracking: 'https://ai.google.dev/edge/mediapipe/solutions/vision/face_landmarker'
+} as const;
 
 /**
  * @internal
  *
- * Where a stream sits on screen relative to the listener (the local camera, or the screen share when one is
- * shown), in half-widths / half-heights of the layout, `y` pointing up: above the listener means in front, left
- * means left and below means behind.
+ * Assumed viewing geometry: the user sits this far in front of the middle of a screen this wide (a 30" 16:9
+ * monitor), so a tile's direction is the real angle between the user's head and that spot on the screen.
+ */
+export const SPATIAL_AUDIO_GEOMETRY = {
+	viewingDistanceCm: 60,
+	screenWidthCm: 66.4
+} as const;
+
+/** @internal Range of the user's "spread" factor for the directions (1 = physically accurate). */
+export const SPATIAL_AUDIO_SPREAD = { min: 1, max: 4, step: 0.25, default: 1 } as const;
+
+/**
+ * @internal
+ *
+ * Where a remote stream's tile is: the horizontal position of its centre on the physical screen, in CSS pixels
+ * from the screen's left edge (the same unit as `window.screen.width`).
  */
 export interface SpatialPlacement {
-	x: number;
-	y: number;
+	screenX: number;
 }

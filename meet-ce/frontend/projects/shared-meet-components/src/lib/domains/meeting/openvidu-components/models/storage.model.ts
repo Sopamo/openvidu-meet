@@ -12,7 +12,9 @@ export enum StorageKeys {
 	BACKGROUND = 'virtualBg',
 	THEME = 'theme',
 	PARTICIPANT_VOLUMES = 'participantVolumes',
-	SPATIAL_AUDIO = 'spatialAudio'
+	SPATIAL_AUDIO = 'spatialAudio',
+	SPATIAL_AUDIO_SPREAD = 'spatialAudioSpread',
+	HEAD_TRACKING = 'headTracking'
 }
 
 /**

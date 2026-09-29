@@ -193,12 +193,6 @@ export interface OpenViduLayoutOptions {
 	bigScaleLastRow: boolean;
 	/** comeet: arrange the elements around the listener for spatial audio (see calculateSpatialLayout) */
 	spatial?: boolean;
-	/** comeet: receives every element's box and the listener's position after a spatial layout pass, to position the voices */
-	onSpatialLayout?: (
-		elements: HTMLElement[],
-		boxes: LayoutBox[],
-		listener: { x: number; y: number },
-		width: number,
-		height: number
-	) => void;
+	/** comeet: receives every element's box (in the container) after a spatial layout pass, to position the voices */
+	onSpatialLayout?: (elements: HTMLElement[], boxes: LayoutBox[]) => void;
 }

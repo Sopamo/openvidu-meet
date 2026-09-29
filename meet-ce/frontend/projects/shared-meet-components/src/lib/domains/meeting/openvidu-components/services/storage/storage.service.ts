@@ -125,13 +125,31 @@ export class StorageService {
 		this.set(StorageKeys.PARTICIPANT_VOLUMES, volumes);
 	}
 
-	/** Local spatial audio mode ('off', 'panner' or 'resonance'); see SpatialAudioService. */
+	/** Local spatial audio mode ('off', 'panner' or 'thk'); see SpatialAudioService. */
 	getSpatialAudioMode(): string | null {
 		return this.get<string>(StorageKeys.SPATIAL_AUDIO);
 	}
 
 	setSpatialAudioMode(mode: string): void {
 		this.set(StorageKeys.SPATIAL_AUDIO, mode);
+	}
+
+	/** Factor on the spatial audio directions (1 = physically accurate); see SpatialAudioService. */
+	getSpatialAudioSpread(): number | null {
+		return this.get<number>(StorageKeys.SPATIAL_AUDIO_SPREAD);
+	}
+
+	setSpatialAudioSpread(spread: number): void {
+		this.set(StorageKeys.SPATIAL_AUDIO_SPREAD, spread);
+	}
+
+	/** Whether spatial audio follows the user's head (camera-based head tracking); see HeadTrackingService. */
+	getHeadTracking(): boolean {
+		return this.get<boolean>(StorageKeys.HEAD_TRACKING) ?? false;
+	}
+
+	setHeadTracking(enabled: boolean): void {
+		this.set(StorageKeys.HEAD_TRACKING, enabled);
 	}
 
 	/**

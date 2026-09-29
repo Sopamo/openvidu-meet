@@ -98,8 +98,15 @@
 			"SPATIAL_AUDIO": "Spatial audio",
 			"SPATIAL_AUDIO_OFF": "Off",
 			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
-			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (with room)",
-			"SPATIAL_AUDIO_HINT": "Each voice comes from where the person is on screen; you sit in the middle. Use headphones.",
+			"SPATIAL_AUDIO_THK": "TH Köln HRTF (KU100)",
+			"SPATIAL_AUDIO_HINT": "Each voice comes from where the person is on your screen, as seen from 60 cm in front of a 30\" monitor: as if they sat behind it in your office. Use headphones.",
+			"SPATIAL_AUDIO_SPREAD": "Spread",
+			"SPATIAL_AUDIO_SPREAD_HINT": "1× is physically accurate (a few degrees between neighbours); more makes the directions more pronounced.",
+			"HEAD_TRACKING": "Head tracking",
+			"HEAD_TRACKING_HINT": "Follows your head with the camera, so the voices stay in place when you turn it. The video is analysed in your browser only.",
+			"HEAD_TRACKING_ACTIVE": "Tracking",
+			"HEAD_TRACKING_SEARCHING": "Looking for your face…",
+			"HEAD_TRACKING_ERROR": "Camera not available",
 			"SPATIAL_AUDIO_DOCS": "Documentation"
 		},
 		"BACKGROUND": {

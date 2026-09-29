@@ -113,7 +113,7 @@ export class OpenViduLayout {
 		const elements = children.map((element) => this.describeElement(element));
 
 		if (this.opts.spatial) {
-			const { boxes, listener } = calculateSpatialLayout(
+			const boxes = calculateSpatialLayout(
 				containerWidth,
 				containerHeight,
 				children.map((element, i) => ({
@@ -124,7 +124,7 @@ export class OpenViduLayout {
 				}))
 			);
 			this.renderer.renderLayout(this.layoutContainer, boxes, children, this.opts.animate);
-			this.opts.onSpatialLayout?.(children, boxes, listener, containerWidth, containerHeight);
+			this.opts.onSpatialLayout?.(children, boxes);
 			return;
 		}
 

@@ -19,8 +19,8 @@ import { StorageService } from '../storage/storage.service';
 	providedIn: 'root'
 })
 export class ParticipantVolumeService {
-	static readonly MAX = 2;
-	static readonly STEP = 0.05;
+	static readonly MAX = 4;
+	static readonly STEP = 0.01;
 
 	private readonly storage = inject(StorageService);
 	private readonly _volumes = signal<Record<string, number>>(this.storage.getParticipantVolumes());

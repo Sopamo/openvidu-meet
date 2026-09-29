@@ -1,16 +1,18 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { SPATIAL_AUDIO_DOCS, SpatialAudioMode } from '../../../models/spatial-audio.model';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSliderModule } from '@angular/material/slider';
+import { SPATIAL_AUDIO_DOCS, SPATIAL_AUDIO_SPREAD, SpatialAudioMode } from '../../../models/spatial-audio.model';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
+import { HeadTrackingService } from '../../../services/spatial-audio/head-tracking.service';
 import { SpatialAudioService } from '../../../services/spatial-audio/spatial-audio.service';
 
 /**
  * @internal
  *
- * Dropdown for the local spatial audio mode (off, Web Audio PannerNode, Resonance Audio), with links to the
- * documentation of both engines.
+ * Dropdown for the local spatial audio mode (off, Web Audio PannerNode, TH Köln HRTFs).
  */
 @Component({
 	selector: 'ov-spatial-audio-selector',
@@ -60,7 +62,7 @@ export class SpatialAudioSelectorComponent {
 	protected readonly labelKeys: Record<SpatialAudioMode, string> = {
 		[SpatialAudioMode.OFF]: 'PANEL.SETTINGS.SPATIAL_AUDIO_OFF',
 		[SpatialAudioMode.PANNER]: 'PANEL.SETTINGS.SPATIAL_AUDIO_PANNER',
-		[SpatialAudioMode.RESONANCE]: 'PANEL.SETTINGS.SPATIAL_AUDIO_RESONANCE'
+		[SpatialAudioMode.THK]: 'PANEL.SETTINGS.SPATIAL_AUDIO_THK'
 	};
 	protected readonly mode = this.spatialAudio.mode;
 
@@ -72,45 +74,123 @@ export class SpatialAudioSelectorComponent {
 /**
  * @internal
  *
- * One line under the selector: what spatial audio does and where the two engines are documented.
+ * Under the selector: what spatial audio does and, while it is on, the spread of the directions and head
+ * tracking, with links to the documentation and the source of the HRTFs.
  */
 @Component({
-	selector: 'ov-spatial-audio-hint',
-	imports: [TranslatePipe],
+	selector: 'ov-spatial-audio-options',
+	imports: [MatIconModule, MatSliderModule, MatSlideToggleModule, TranslatePipe],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	template: `
-		<p class="spatial-audio-hint">
-			{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_HINT' | translate }}
-			{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_DOCS' | translate }}:
-			<a [href]="docs.panner" target="_blank" rel="noopener noreferrer" [class.active]="mode() === 'panner'">PannerNode</a>,
-			<a [href]="docs.resonance" target="_blank" rel="noopener noreferrer" [class.active]="mode() === 'resonance'"
-				>Resonance Audio</a
-			>
-		</p>
+		<div class="spatial-audio-options">
+			<p class="hint">
+				{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_HINT' | translate }}
+				{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_DOCS' | translate }}:
+				<a [href]="docs.panner" target="_blank" rel="noopener noreferrer">PannerNode</a>,
+				<a [href]="docs.thk" target="_blank" rel="noopener noreferrer">TH Köln KU100 HRTF (CC BY-SA 3.0)</a>,
+				<a [href]="docs.headTracking" target="_blank" rel="noopener noreferrer">MediaPipe Face Landmarker</a>
+			</p>
+			@if (enabled()) {
+				<div class="row">
+					<span class="label">{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_SPREAD' | translate }}</span>
+					<mat-slider class="spread-slider" [min]="spreadRange.min" [max]="spreadRange.max" [step]="spreadRange.step">
+						<input
+							matSliderThumb
+							id="spatial-audio-spread"
+							[value]="spread()"
+							(input)="setSpread($any($event.target).value)"
+							[attr.aria-label]="'PANEL.SETTINGS.SPATIAL_AUDIO_SPREAD' | translate"
+						/>
+					</mat-slider>
+					<span class="value">{{ spreadLabel() }}</span>
+				</div>
+				<p class="hint">{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_SPREAD_HINT' | translate }}</p>
+				<div class="row">
+					<mat-slide-toggle
+						id="spatial-audio-head-tracking"
+						[checked]="headTracking()"
+						(change)="setHeadTracking($event.checked)"
+					>
+						{{ 'PANEL.SETTINGS.HEAD_TRACKING' | translate }}
+					</mat-slide-toggle>
+					@if (headTracking()) {
+						<span class="status" [class.active]="tracking()">
+							{{ (error() ? 'PANEL.SETTINGS.HEAD_TRACKING_ERROR' : tracking() ? 'PANEL.SETTINGS.HEAD_TRACKING_ACTIVE' : 'PANEL.SETTINGS.HEAD_TRACKING_SEARCHING') | translate }}
+						</span>
+					}
+				</div>
+				<p class="hint">{{ 'PANEL.SETTINGS.HEAD_TRACKING_HINT' | translate }}</p>
+			}
+		</div>
 	`,
 	styles: `
-		.spatial-audio-hint {
-			margin: 0;
+		.spatial-audio-options {
+			display: flex;
+			flex-direction: column;
+			gap: 6px;
 			padding: 0 16px;
+			color: var(--ov-text-surface-color);
+		}
+		.hint {
+			margin: 0;
 			font-size: 12px;
 			line-height: 1.4;
-			color: var(--ov-text-surface-color);
 			opacity: 0.8;
 
 			a {
 				color: inherit;
 				text-decoration: underline;
+			}
+		}
+		.row {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			margin-top: 8px;
+		}
+		.label {
+			font-size: 14px;
+			white-space: nowrap;
+		}
+		.spread-slider {
+			flex: 1;
+			min-width: 120px;
+		}
+		.value {
+			font-variant-numeric: tabular-nums;
+			min-width: 3em;
+			text-align: right;
+		}
+		.status {
+			font-size: 12px;
+			opacity: 0.7;
 
-				&.active {
-					font-weight: 600;
-				}
+			&.active {
+				opacity: 1;
+				color: var(--ov-accent-action-color);
 			}
 		}
 	`,
 	standalone: true
 })
-export class SpatialAudioHintComponent {
+export class SpatialAudioOptionsComponent {
 	private readonly spatialAudio = inject(SpatialAudioService);
+	private readonly headTrackingService = inject(HeadTrackingService);
+
 	protected readonly docs = SPATIAL_AUDIO_DOCS;
-	protected readonly mode = this.spatialAudio.mode;
+	protected readonly spreadRange = SPATIAL_AUDIO_SPREAD;
+	protected readonly enabled = this.spatialAudio.enabled;
+	protected readonly spread = this.spatialAudio.spread;
+	protected readonly spreadLabel = computed(() => `${this.spread().toFixed(2).replace(/\.?0+$/, '')}×`);
+	protected readonly headTracking = this.spatialAudio.headTrackingEnabled;
+	protected readonly tracking = this.headTrackingService.tracking;
+	protected readonly error = this.headTrackingService.error;
+
+	setSpread(value: string | number): void {
+		this.spatialAudio.setSpread(Number(value));
+	}
+
+	setHeadTracking(enabled: boolean): void {
+		this.spatialAudio.setHeadTracking(enabled);
+	}
 }

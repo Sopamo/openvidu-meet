@@ -61,6 +61,7 @@ export * from './services/openvidu/openvidu.service';
 export * from './services/panel/panel.service';
 export * from './services/participant/participant.service';
 export * from './services/participant/participant-volume.service';
+export * from './services/spatial-audio/head-tracking.service';
 export * from './services/spatial-audio/spatial-audio.service';
 export * from './services/reaction/reaction.service';
 export * from './services/storage/storage.service';

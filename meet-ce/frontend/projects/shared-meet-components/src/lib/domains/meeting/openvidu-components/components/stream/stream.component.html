@@ -134,7 +134,7 @@
 							}
 						</button>
 						<!-- comeet: local playback volume (only affects what you hear; same value as the participants panel) -->
-						<div class="volume-control" [class.changed]="volume() !== 1">
+						<div class="volume-control" [class.changed]="volume() !== 1" (pointerdown)="holdControlsWhileDragging()">
 							<mat-slider
 								class="tile-volume-slider"
 								[min]="0"

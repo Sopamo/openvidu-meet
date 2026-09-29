@@ -97,8 +97,15 @@
 			"SPATIAL_AUDIO": "Audio spatial",
 			"SPATIAL_AUDIO_OFF": "Désactivé",
 			"SPATIAL_AUDIO_PANNER": "Web Audio HRTF",
-			"SPATIAL_AUDIO_RESONANCE": "Resonance Audio (avec salle)",
-			"SPATIAL_AUDIO_HINT": "Chaque voix vient de l'endroit où la personne apparaît à l'écran ; vous êtes au centre. Utilisez un casque.",
+			"SPATIAL_AUDIO_THK": "HRTF TH Köln (KU100)",
+			"SPATIAL_AUDIO_HINT": "Chaque voix vient de l'endroit où la personne apparaît à l'écran, vu à 60 cm d'un moniteur de 30\" : comme si elle était assise derrière, dans votre bureau. Utilisez un casque.",
+			"SPATIAL_AUDIO_SPREAD": "Amplitude",
+			"SPATIAL_AUDIO_SPREAD_HINT": "1× est physiquement exact (quelques degrés entre voisins) ; au-delà, les directions sont plus marquées.",
+			"HEAD_TRACKING": "Suivi de la tête",
+			"HEAD_TRACKING_HINT": "Suit votre tête avec la caméra pour que les voix restent en place quand vous la tournez. La vidéo est analysée uniquement dans votre navigateur.",
+			"HEAD_TRACKING_ACTIVE": "Actif",
+			"HEAD_TRACKING_SEARCHING": "Recherche de votre visage…",
+			"HEAD_TRACKING_ERROR": "Caméra indisponible",
 			"SPATIAL_AUDIO_DOCS": "Documentation"
 		},
 		"BACKGROUND": {

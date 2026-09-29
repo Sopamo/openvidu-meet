@@ -100,25 +100,21 @@ export class BaseLayoutService {
 	}
 
 	/**
-	 * comeet: after a spatial layout pass, tells {@link SpatialAudioService} where each remote stream sits
-	 * relative to the listener (the local camera, or the screen share in focus).
+	 * comeet: after a spatial layout pass, tells {@link SpatialAudioService} where each remote stream's tile is
+	 * on the physical screen (horizontally).
 	 */
-	private readonly onSpatialLayout = (
-		elements: HTMLElement[],
-		boxes: LayoutBox[],
-		listener: { x: number; y: number },
-		width: number,
-		height: number
-	) => {
+	private readonly onSpatialLayout = (elements: HTMLElement[], boxes: LayoutBox[]) => {
 		const placements = new Map<string, SpatialPlacement>();
+		const containerLeft = this.layoutContainer?.getBoundingClientRect().left ?? 0;
+		// The window's position on the screen (0 when maximised or unknown).
+		const windowLeft = window.screenX || 0;
 		elements.forEach((element, i) => {
 			const box = boxes[i];
 			if (!box || !element.id.startsWith('participant-') || element.classList.contains('local_participant')) return;
 			const identity = element.id.slice('participant-'.length);
 			const isScreen = element.classList.contains('OV_screen');
 			placements.set(SpatialAudioService.key(identity, isScreen), {
-				x: (box.left + box.width / 2 - listener.x) / (width / 2),
-				y: (listener.y - (box.top + box.height / 2)) / (height / 2)
+				screenX: windowLeft + containerLeft + box.left + box.width / 2
 			});
 		});
 		this.spatialAudio.setPlacements(placements);

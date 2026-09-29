@@ -90,6 +90,8 @@ export class StreamComponent implements OnDestroy {
 	private showVideoTimeout: ReturnType<typeof setTimeout> | undefined;
 	/** True while the pointer is over the video controls; suppresses the auto-hide timer. */
 	private isOverControls = false;
+	/** comeet: the volume slider is being dragged (see {@link holdControlsWhileDragging}). */
+	private sliderDragging = false;
 
 	/**
 	 * @ignore
@@ -194,9 +196,27 @@ export class StreamComponent implements OnDestroy {
 	 * @ignore
 	 * Reveals the controls on pointer movement over the stream and (re)arms the auto-hide timer.
 	 */
-	mouseHover(event: MouseEvent) {
-		event.preventDefault();
+	mouseHover(_event: MouseEvent) {
+		// No preventDefault: it would cancel dragging the volume slider (a native range input) in the controls.
 		this.revealControls();
+	}
+
+	/**
+	 * @ignore
+	 * comeet: keeps the controls open while the volume slider is being dragged, also when the pointer strays
+	 * off them, until the button is released.
+	 */
+	holdControlsWhileDragging() {
+		this.sliderDragging = true;
+		this.keepControlsVisible();
+		const release = () => {
+			document.removeEventListener('pointerup', release);
+			document.removeEventListener('pointercancel', release);
+			this.sliderDragging = false;
+			this.releaseControls();
+		};
+		document.addEventListener('pointerup', release);
+		document.addEventListener('pointercancel', release);
 	}
 
 	/**
@@ -214,6 +234,7 @@ export class StreamComponent implements OnDestroy {
 	 * Re-arms the auto-hide timer once the pointer leaves the controls.
 	 */
 	releaseControls() {
+		if (this.sliderDragging) return;
 		this.isOverControls = false;
 		this.scheduleAutoHideControls();
 	}
