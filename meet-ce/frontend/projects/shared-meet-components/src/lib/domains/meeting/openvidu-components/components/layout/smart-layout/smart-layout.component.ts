@@ -252,7 +252,13 @@ export class SmartLayoutComponent implements OnDestroy {
 		untracked(() => this.layoutService.removeDisconnectedSpeakers(currentIds));
 	});
 
+	constructor() {
+		// comeet: head tracking for spatial audio runs while a meeting is on screen.
+		this.spatialAudio.setInMeeting(true);
+	}
+
 	ngOnDestroy(): void {
+		this.spatialAudio.setInMeeting(false);
 		this.cleanupAudioElements(new Set());
 	}
 

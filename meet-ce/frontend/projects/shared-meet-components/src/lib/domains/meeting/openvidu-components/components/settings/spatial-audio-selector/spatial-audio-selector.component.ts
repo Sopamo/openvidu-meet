@@ -113,9 +113,11 @@ export class SpatialAudioSelectorComponent {
 					>
 						{{ 'PANEL.SETTINGS.HEAD_TRACKING' | translate }}
 					</mat-slide-toggle>
-					@if (headTracking()) {
-						<span class="status" [class.active]="tracking()">
-							{{ (error() ? 'PANEL.SETTINGS.HEAD_TRACKING_ERROR' : tracking() ? 'PANEL.SETTINGS.HEAD_TRACKING_ACTIVE' : 'PANEL.SETTINGS.HEAD_TRACKING_SEARCHING') | translate }}
+					@if (headTracking() && statusKey(); as key) {
+						<span class="status" [class.active]="status() === 'tracking'">
+							{{ key | translate }}@if (status() === 'tracking' && cameraLabel()) {
+								({{ cameraLabel() }})
+							}
 						</span>
 					}
 				</div>
@@ -183,8 +185,18 @@ export class SpatialAudioOptionsComponent {
 	protected readonly spread = this.spatialAudio.spread;
 	protected readonly spreadLabel = computed(() => `${this.spread().toFixed(2).replace(/\.?0+$/, '')}×`);
 	protected readonly headTracking = this.spatialAudio.headTrackingEnabled;
-	protected readonly tracking = this.headTrackingService.tracking;
-	protected readonly error = this.headTrackingService.error;
+	protected readonly status = this.headTrackingService.status;
+	protected readonly cameraLabel = this.headTrackingService.cameraLabel;
+	protected readonly statusKey = computed(
+		() =>
+			({
+				off: '',
+				starting: 'PANEL.SETTINGS.HEAD_TRACKING_STARTING',
+				searching: 'PANEL.SETTINGS.HEAD_TRACKING_SEARCHING',
+				tracking: 'PANEL.SETTINGS.HEAD_TRACKING_ACTIVE',
+				error: 'PANEL.SETTINGS.HEAD_TRACKING_ERROR'
+			})[this.status()]
+	);
 
 	setSpread(value: string | number): void {
 		this.spatialAudio.setSpread(Number(value));

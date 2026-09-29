@@ -105,6 +105,7 @@
 			"HEAD_TRACKING": "ヘッドトラッキング",
 			"HEAD_TRACKING_HINT": "カメラで頭の向きを追跡し、頭を回しても声の位置が保たれます。映像はブラウザー内でのみ解析されます。",
 			"HEAD_TRACKING_ACTIVE": "追跡中",
+			"HEAD_TRACKING_STARTING": "カメラを起動しています…",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

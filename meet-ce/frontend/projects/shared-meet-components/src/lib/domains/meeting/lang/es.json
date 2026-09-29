@@ -105,6 +105,7 @@
 			"HEAD_TRACKING": "Seguimiento de cabeza",
 			"HEAD_TRACKING_HINT": "Sigue tu cabeza con la cámara para que las voces se queden en su sitio al girarla. El vídeo se analiza solo en tu navegador.",
 			"HEAD_TRACKING_ACTIVE": "Activo",
+			"HEAD_TRACKING_STARTING": "Iniciando cámara…",
 			"HEAD_TRACKING_SEARCHING": "Buscando tu cara…",
 			"HEAD_TRACKING_ERROR": "Cámara no disponible",
 			"SPATIAL_AUDIO_DOCS": "Documentación"

@@ -99,7 +99,8 @@ export class SpatialAudioService {
 	private readonly hrirBuffers = new Map<number, AudioBuffer>();
 
 	private readonly tracks = new Map<string, SpatialTrack>();
-	private readonly trackCount = signal(0);
+	/** Whether a meeting layout is on screen (head tracking only runs in a meeting). */
+	private readonly inMeeting = signal(false);
 	private placements = new Map<string, SpatialPlacement>();
 	/** The user's head yaw in radians (positive: turned right), 0 without head tracking. */
 	private headYaw = 0;
@@ -117,9 +118,9 @@ export class SpatialAudioService {
 		untracked(() => this.tracks.forEach((entry) => this.applyPosition(entry)));
 	});
 
-	/** Head tracking runs while it is enabled, spatial audio is on and remote audio is playing. */
+	/** Head tracking runs while it is enabled, spatial audio is on and the user is in a meeting. */
 	private readonly headTrackingEffect = effect(() => {
-		const run = this.enabled() && this._headTrackingEnabled() && this.trackCount() > 0;
+		const run = this.enabled() && this._headTrackingEnabled() && this.inMeeting();
 		untracked(() => (run ? this.headTracking.start() : this.headTracking.stop()));
 	});
 
@@ -153,6 +154,11 @@ export class SpatialAudioService {
 		this.storage.setSpatialAudioSpread(clamped);
 	}
 
+	/** Called by the meeting layout when it appears and disappears. */
+	setInMeeting(inMeeting: boolean): void {
+		this.inMeeting.set(inMeeting);
+	}
+
 	setHeadTracking(enabled: boolean): void {
 		this._headTrackingEnabled.set(enabled);
 		this.storage.setHeadTracking(enabled);
@@ -183,7 +189,6 @@ export class SpatialAudioService {
 			// LiveKit starts with no plugins, i.e. the chain of SpatialAudioMode.OFF.
 			entry = { key, track, volume, wiredMode: SpatialAudioMode.OFF };
 			this.tracks.set(key, entry);
-			this.trackCount.set(this.tracks.size);
 			this.wire(entry);
 		}
 		entry.volume = volume;
@@ -197,7 +202,6 @@ export class SpatialAudioService {
 		if (!entry) return;
 		this.unwire(entry);
 		this.tracks.delete(key);
-		this.trackCount.set(this.tracks.size);
 	}
 
 	/**

@@ -105,6 +105,7 @@
 			"HEAD_TRACKING": "Hoofdtracking",
 			"HEAD_TRACKING_HINT": "Volgt je hoofd met de camera, zodat de stemmen op hun plek blijven als je het draait. De video wordt alleen in je browser geanalyseerd.",
 			"HEAD_TRACKING_ACTIVE": "Actief",
+			"HEAD_TRACKING_STARTING": "Camera starten…",
 			"HEAD_TRACKING_SEARCHING": "Gezicht zoeken…",
 			"HEAD_TRACKING_ERROR": "Camera niet beschikbaar",
 			"SPATIAL_AUDIO_DOCS": "Documentatie"
