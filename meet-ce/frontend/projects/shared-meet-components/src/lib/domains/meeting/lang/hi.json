@@ -3,7 +3,9 @@
 		"JOINING": "कक्ष में शामिल हो रहा है...",
 		"LANDSCAPE_WARNING": "कृपया बेहतर अनुभव के लिए अपने डिवाइस को पोर्ट्रेट मोड में घुमाएं",
 		"DISCONNECTED": "आपने कमरा छोड़ दिया है",
-		"DISCONNECTED_SUBTITLE": "सत्र समाप्त हो गया है"
+		"DISCONNECTED_SUBTITLE": "सत्र समाप्त हो गया है",
+		"RECORDING": "रिकॉर्डिंग",
+		"RECORDING_NOTICE": "सभी comeet मीटिंग रिकॉर्ड की जाती हैं और केवल प्रतिभागियों के लिए उपलब्ध हैं"
 	},
 	"PREJOIN": {
 		"NICKNAME": "निकनेम",

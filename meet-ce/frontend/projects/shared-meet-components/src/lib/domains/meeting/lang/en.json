@@ -11,7 +11,9 @@
 		"JOINING": "Joining room...",
 		"LANDSCAPE_WARNING": "Please rotate your device to portrait for a better experience",
 		"DISCONNECTED": "You have left the room",
-		"DISCONNECTED_SUBTITLE": "The session has ended"
+		"DISCONNECTED_SUBTITLE": "The session has ended",
+		"RECORDING": "recording",
+		"RECORDING_NOTICE": "All comeet meetings are recorded and accessible only to participants"
 	},
 	"TOOLBAR": {
 		"REACTIONS": "Send a reaction",

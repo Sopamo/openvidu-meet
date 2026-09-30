@@ -3,7 +3,9 @@
 		"JOINING": "Rejoindre la salle...",
 		"LANDSCAPE_WARNING": "Veuillez faire pivoter votre appareil en mode portrait pour une meilleure expérience",
 		"DISCONNECTED": "Vous avez quitté la salle",
-		"DISCONNECTED_SUBTITLE": "La session est terminée"
+		"DISCONNECTED_SUBTITLE": "La session est terminée",
+		"RECORDING": "enregistrement",
+		"RECORDING_NOTICE": "Toutes les réunions comeet sont enregistrées et accessibles uniquement aux participants"
 	},
 	"PREJOIN": {
 		"NICKNAME": "Surnom",

@@ -3,7 +3,9 @@
 		"JOINING": "ルームに参加しています...",
 		"LANDSCAPE_WARNING": "より良い体験のために、デバイスを縦向きに回転させてください",
 		"DISCONNECTED": "ルームから退出しました",
-		"DISCONNECTED_SUBTITLE": "セッションが終了しました"
+		"DISCONNECTED_SUBTITLE": "セッションが終了しました",
+		"RECORDING": "録画中",
+		"RECORDING_NOTICE": "comeet のすべての会議は録画され、参加者のみがアクセスできます"
 	},
 	"PREJOIN": {
 		"NICKNAME": "ニックネーム",

@@ -3,7 +3,9 @@
 		"JOINING": "Entrando na sala...",
 		"LANDSCAPE_WARNING": "Por favor, gire seu dispositivo para o modo retrato para uma melhor experiência",
 		"DISCONNECTED": "Você saiu da sala",
-		"DISCONNECTED_SUBTITLE": "A sessão foi encerrada"
+		"DISCONNECTED_SUBTITLE": "A sessão foi encerrada",
+		"RECORDING": "gravando",
+		"RECORDING_NOTICE": "Todas as reuniões do comeet são gravadas e acessíveis apenas aos participantes"
 	},
 	"PREJOIN": {
 		"NICKNAME": "Apelido",

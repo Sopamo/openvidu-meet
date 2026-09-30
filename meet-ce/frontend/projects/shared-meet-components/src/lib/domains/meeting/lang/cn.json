@@ -3,7 +3,9 @@
 		"JOINING": "正在加入房间...",
 		"LANDSCAPE_WARNING": "请将设备旋转到纵向以获得最佳体验",
 		"DISCONNECTED": "您已离开房间",
-		"DISCONNECTED_SUBTITLE": "会话已结束"
+		"DISCONNECTED_SUBTITLE": "会话已结束",
+		"RECORDING": "录制中",
+		"RECORDING_NOTICE": "所有 comeet 会议都会被录制，且仅参与者可以访问"
 	},
 	"PREJOIN": {
 		"NICKNAME": "昵称",

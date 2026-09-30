@@ -81,6 +81,9 @@
 #layout-container {
 	height: inherit;
 	width: inherit;
+	// comeet: a thin strip at the top for the recording indicator, so it never covers a tile's name
+	padding-top: 22px;
+	box-sizing: border-box;
 }
 
 .mat-drawer-container {
@@ -165,4 +168,35 @@
 
 ::ng-deep .mat-drawer {
 	background-color: transparent !important;
+}
+
+// comeet: small "recording" badge in the top-left corner of the meeting (every meeting is recorded)
+.recording-indicator {
+	position: absolute;
+	top: 4px;
+	left: 8px;
+	z-index: 1001; // above the video tiles, like the reactions
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 1px 6px 1px 5px;
+	border-radius: 999px;
+	background: rgba(0, 0, 0, 0.55);
+	color: #fff;
+	font-size: 10px;
+	line-height: 14px;
+	letter-spacing: 0.02em;
+	cursor: default;
+	user-select: none;
+
+	.dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: #e53935;
+	}
+}
+
+.sidenav-main {
+	position: relative;
 }

@@ -19,6 +19,7 @@ import { MatDrawerContainer, MatSidenav, MatSidenavModule } from '@angular/mater
 import { SidenavMode } from '../../models/layout/layout.model';
 import { PanelType } from '../../models/panel.model';
 import { ParticipantLeftEvent, ParticipantLeftReason, ParticipantModel } from '../../models/participant.model';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { TranslatePipe } from '../../pipes/translate.pipe';
 import { ActionService } from '../../services/action/action.service';
 import { OpenViduComponentsConfigService } from '../../services/config/directive-config.service';
@@ -44,7 +45,15 @@ import { ReactionsOverlayComponent } from '../reactions/reactions-overlay.compon
 
 @Component({
 	selector: 'ov-session',
-	imports: [CommonModule, MatProgressSpinnerModule, MatSidenavModule, TranslatePipe, LandscapeWarningComponent, ReactionsOverlayComponent],
+	imports: [
+		CommonModule,
+		MatProgressSpinnerModule,
+		MatSidenavModule,
+		MatTooltipModule,
+		TranslatePipe,
+		LandscapeWarningComponent,
+		ReactionsOverlayComponent
+	],
 	templateUrl: './session.component.html',
 	styleUrls: ['./session.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,

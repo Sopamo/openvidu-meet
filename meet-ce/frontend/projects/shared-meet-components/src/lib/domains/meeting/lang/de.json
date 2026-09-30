@@ -3,7 +3,9 @@
 		"JOINING": "Raum beitreten...",
 		"LANDSCAPE_WARNING": "Bitte drehen Sie Ihr Gerät für eine bessere Erfahrung in den Hochformatmodus",
 		"DISCONNECTED": "Sie haben den Raum verlassen",
-		"DISCONNECTED_SUBTITLE": "Die Sitzung wurde beendet"
+		"DISCONNECTED_SUBTITLE": "Die Sitzung wurde beendet",
+		"RECORDING": "Aufnahme",
+		"RECORDING_NOTICE": "Alle comeet-Meetings werden aufgezeichnet und sind nur für Teilnehmende zugänglich"
 	},
 	"PREJOIN": {
 		"NICKNAME": "Spitzname",

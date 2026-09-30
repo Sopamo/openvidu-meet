@@ -3,7 +3,9 @@
 		"JOINING": "De ruimte betreden...",
 		"LANDSCAPE_WARNING": "Draai uw apparaat voor een betere ervaring naar portretmodus",
 		"DISCONNECTED": "U heeft de kamer verlaten",
-		"DISCONNECTED_SUBTITLE": "De sessie is beëindigd"
+		"DISCONNECTED_SUBTITLE": "De sessie is beëindigd",
+		"RECORDING": "opname",
+		"RECORDING_NOTICE": "Alle comeet-vergaderingen worden opgenomen en zijn alleen toegankelijk voor deelnemers"
 	},
 	"PREJOIN": {
 		"NICKNAME": "Bijnaam",

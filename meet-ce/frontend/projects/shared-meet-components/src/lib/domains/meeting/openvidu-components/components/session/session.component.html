@@ -33,6 +33,16 @@
 				</div>
 				<!-- comeet: floating reactions -->
 				<ov-reactions-overlay />
+				<!-- comeet: every meeting is recorded (the archive) -->
+				<div
+					class="recording-indicator"
+					id="recording-indicator"
+					tabindex="0"
+					[matTooltip]="'ROOM.RECORDING_NOTICE' | translate"
+					matTooltipPosition="below"
+				>
+					<span class="dot"></span>{{ 'ROOM.RECORDING' | translate }}
+				</div>
 			</mat-sidenav-content>
 		</mat-sidenav-container>
 
