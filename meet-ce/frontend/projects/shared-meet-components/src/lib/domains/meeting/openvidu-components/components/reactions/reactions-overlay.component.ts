@@ -38,7 +38,9 @@ import { ReactionService } from '../../services/reaction/reaction.service';
 			height: 70%;
 			pointer-events: none;
 			overflow: visible;
-			z-index: 20;
+			/* Above every video tile and screen share (video elements: 889, the floating own tile: 1000), below the
+			   side panel when it covers the meeting on small screens (1002). */
+			z-index: 1001;
 		}
 		.reaction {
 			position: absolute;
