@@ -2,6 +2,7 @@
 	"name": "openvidu-meet-workspace",
 	"version": "3.8.0",
 	"private": true,
+	"packageManager": "pnpm@11.8.0",
 	"description": "OpenVidu Meet Monorepo",
 	"scripts": {
 		"build": "pnpm run build:typings && pnpm run build:backend && pnpm run build:shared-components && pnpm run build:frontend && pnpm run build:webcomponent",
