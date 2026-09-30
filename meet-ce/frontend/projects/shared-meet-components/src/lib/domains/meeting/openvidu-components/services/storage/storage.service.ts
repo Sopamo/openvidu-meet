@@ -152,6 +152,15 @@ export class StorageService {
 		this.set(StorageKeys.HEAD_TRACKING, enabled);
 	}
 
+	/** Whether the spatial audio angles are shown on the video tiles (debug); see SpatialAudioService. */
+	getSpatialAudioDebug(): boolean {
+		return this.get<boolean>(StorageKeys.SPATIAL_AUDIO_DEBUG) ?? false;
+	}
+
+	setSpatialAudioDebug(enabled: boolean): void {
+		this.set(StorageKeys.SPATIAL_AUDIO_DEBUG, enabled);
+	}
+
 	/**
 	 * Persists a value, wrapped as `{ item: value }` so that falsy values (`false`, `0`, `''`) and
 	 * `null` round-trip intact and stay distinguishable from an absent key.

@@ -17,6 +17,13 @@
 		(mousemove)="mouseHover($event)"
 		#streamContainer
 	>
+		<!-- comeet: spatial audio debug overlay: the angle this voice is played from (tile direction minus head yaw) -->
+		@if (spatialAngle(); as angle) {
+			<div class="spatial-angle" id="spatial-angle">
+				<span class="angle">{{ formatAngle(angle.azimuth) }}</span>
+				<span class="parts">tile {{ formatAngle(angle.tile) }} · head {{ formatAngle(angle.head) }}</span>
+			</div>
+		}
 		@if (showParticipantName()) {
 			<div id="participant-name-container" class="participant-name" [class.fullscreen]="isFullscreen()">
 				<div class="participant-name-container">

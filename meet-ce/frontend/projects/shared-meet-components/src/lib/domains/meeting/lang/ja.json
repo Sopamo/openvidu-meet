@@ -106,6 +106,8 @@
 			"HEAD_TRACKING_HINT": "カメラで頭の向きを追跡し、頭を回しても声の位置が保たれます。映像はブラウザー内でのみ解析されます。",
 			"HEAD_TRACKING_ACTIVE": "追跡中",
 			"HEAD_TRACKING_STARTING": "カメラを起動しています…",
+			"SPATIAL_AUDIO_DEBUG": "音声の角度を表示（デバッグ）",
+			"SPATIAL_AUDIO_DEBUG_HINT": "各映像に声が聞こえる角度を表示します：タイルの方向（×広がり）から頭の回転を引いた値です。",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

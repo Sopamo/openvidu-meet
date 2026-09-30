@@ -4,6 +4,7 @@ import { ILogger } from '../../models/logger.model';
 import {
 	SPATIAL_AUDIO_GEOMETRY,
 	SPATIAL_AUDIO_SPREAD,
+	SpatialAngle,
 	SpatialAudioMode,
 	SpatialPlacement
 } from '../../models/spatial-audio.model';
@@ -90,6 +91,15 @@ export class SpatialAudioService {
 	private readonly _headTrackingEnabled = signal<boolean>(this.storage.getHeadTracking());
 	readonly headTrackingEnabled = this._headTrackingEnabled.asReadonly();
 
+	private readonly _debug = signal<boolean>(this.storage.getSpatialAudioDebug());
+	/** Whether the video tiles show the angle each voice is played from. */
+	readonly debug = this._debug.asReadonly();
+	private readonly _debugAngles = signal<Record<string, SpatialAngle>>({});
+	/** The current angle of each voice, keyed by {@link key} (updated at most 10 times a second, debug only). */
+	readonly debugAngles = this._debugAngles.asReadonly();
+	private readonly angles = new Map<string, SpatialAngle>();
+	private anglesTimer?: ReturnType<typeof setTimeout>;
+
 	private context: AudioContext | undefined;
 	/** Output of all TH Köln voices. */
 	private hrirBus: GainNode | undefined;
@@ -134,6 +144,7 @@ export class SpatialAudioService {
 			if (event.key?.endsWith(StorageKeys.SPATIAL_AUDIO)) this._mode.set(this.readStoredMode());
 			if (event.key?.endsWith(StorageKeys.SPATIAL_AUDIO_SPREAD)) this._spread.set(this.readStoredSpread());
 			if (event.key?.endsWith(StorageKeys.HEAD_TRACKING)) this._headTrackingEnabled.set(this.storage.getHeadTracking());
+			if (event.key?.endsWith(StorageKeys.SPATIAL_AUDIO_DEBUG)) this._debug.set(this.storage.getSpatialAudioDebug());
 		});
 	}
 
@@ -162,6 +173,12 @@ export class SpatialAudioService {
 	setHeadTracking(enabled: boolean): void {
 		this._headTrackingEnabled.set(enabled);
 		this.storage.setHeadTracking(enabled);
+	}
+
+	setDebug(enabled: boolean): void {
+		this._debug.set(enabled);
+		this.storage.setSpatialAudioDebug(enabled);
+		if (enabled) this.tracks.forEach((entry) => this.applyPosition(entry));
 	}
 
 	/** The AudioContext remote audio is mixed in (handed to LiveKit as `webAudioMix.audioContext`). */
@@ -202,6 +219,7 @@ export class SpatialAudioService {
 		if (!entry) return;
 		this.unwire(entry);
 		this.tracks.delete(key);
+		this.angles.delete(key);
 	}
 
 	/**
@@ -293,7 +311,9 @@ export class SpatialAudioService {
 	private applyPosition(entry: SpatialTrack): void {
 		if (!entry.panner && !entry.hrir) return;
 		// Direction of the voice relative to where the head points (positive: to the right).
-		const azimuth = this.azimuthOf(this.placements.get(entry.key)) - this.headYaw;
+		const tile = this.azimuthOf(this.placements.get(entry.key));
+		const azimuth = tile - this.headYaw;
+		if (this._debug()) this.showAngle(entry, tile, azimuth);
 		if (entry.panner) {
 			const t = this.audioContext.currentTime;
 			entry.panner.positionX.setTargetAtTime(Math.sin(azimuth) * DISTANCE, t, 0.03);
@@ -306,6 +326,18 @@ export class SpatialAudioService {
 			entry.hrir.target = ((degrees % 360) + 360) % 360;
 			this.switchHrir(entry.hrir);
 		}
+	}
+
+	/** Debug: remembers the angles of a voice and publishes all of them at most 10 times a second. */
+	private showAngle(entry: SpatialTrack, tile: number, azimuth: number): void {
+		const deg = (rad: number) => Math.round((rad * 1800) / Math.PI) / 10;
+		// The TH Köln voices play the nearest measured direction (whole degrees).
+		const played = entry.hrir ? Math.round((azimuth * 180) / Math.PI) : deg(azimuth);
+		this.angles.set(entry.key, { azimuth: played, tile: deg(tile), head: deg(this.headYaw) });
+		this.anglesTimer ??= setTimeout(() => {
+			this.anglesTimer = undefined;
+			this._debugAngles.set(Object.fromEntries(this.angles));
+		}, 100);
 	}
 
 	/**

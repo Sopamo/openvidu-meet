@@ -106,6 +106,8 @@
 			"HEAD_TRACKING_HINT": "Volgt je hoofd met de camera, zodat de stemmen op hun plek blijven als je het draait. De video wordt alleen in je browser geanalyseerd.",
 			"HEAD_TRACKING_ACTIVE": "Actief",
 			"HEAD_TRACKING_STARTING": "Camera starten…",
+			"SPATIAL_AUDIO_DEBUG": "Audiohoeken tonen (debug)",
+			"SPATIAL_AUDIO_DEBUG_HINT": "Toont op elke video uit welke hoek de stem komt: de richting van de tegel (maal de spreiding) min de draaiing van je hoofd.",
 			"HEAD_TRACKING_SEARCHING": "Gezicht zoeken…",
 			"HEAD_TRACKING_ERROR": "Camera niet beschikbaar",
 			"SPATIAL_AUDIO_DOCS": "Documentatie"

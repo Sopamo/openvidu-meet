@@ -105,6 +105,8 @@
 			"HEAD_TRACKING_HINT": "Suit votre tête avec la caméra pour que les voix restent en place quand vous la tournez. La vidéo est analysée uniquement dans votre navigateur.",
 			"HEAD_TRACKING_ACTIVE": "Actif",
 			"HEAD_TRACKING_STARTING": "Démarrage de la caméra…",
+			"SPATIAL_AUDIO_DEBUG": "Afficher les angles audio (débogage)",
+			"SPATIAL_AUDIO_DEBUG_HINT": "Affiche sur chaque vidéo l'angle d'où vient sa voix : la direction de la vignette (fois l'amplitude) moins la rotation de votre tête.",
 			"HEAD_TRACKING_SEARCHING": "Recherche de votre visage…",
 			"HEAD_TRACKING_ERROR": "Caméra indisponible",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

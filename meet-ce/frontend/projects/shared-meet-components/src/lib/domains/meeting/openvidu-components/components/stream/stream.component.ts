@@ -22,6 +22,7 @@ import { OpenViduComponentsConfigService } from '../../services/config/directive
 import { SmartLayoutService } from '../../services/layout/smart-layout.service';
 import { ParticipantService } from '../../services/participant/participant.service';
 import { ParticipantVolumeService } from '../../services/participant/participant-volume.service';
+import { SpatialAudioService } from '../../services/spatial-audio/spatial-audio.service';
 import { AudioWaveComponent } from '../audio-wave/audio-wave.component';
 import { ConnectionQualityIndicatorComponent } from '../connection-quality-indicator/connection-quality-indicator.component';
 import { VideoElementComponent } from '../video-element/video-element.component';
@@ -51,6 +52,19 @@ export class StreamComponent implements OnDestroy {
 	private readonly layoutService = inject(SmartLayoutService);
 	private readonly participantService = inject(ParticipantService);
 	private readonly volumeService = inject(ParticipantVolumeService);
+	private readonly spatialAudio = inject(SpatialAudioService);
+
+	/** comeet: debug overlay with the angle this stream's voice is played from (spatial audio debug mode). */
+	readonly spatialAngle = computed(() => {
+		const stream = this.stream();
+		if (!stream || stream.participant.isLocal || !this.spatialAudio.enabled() || !this.spatialAudio.debug()) return undefined;
+		return this.spatialAudio.debugAngles()[SpatialAudioService.key(stream.participant.identity, stream.isScreenStream)];
+	});
+
+	/** comeet: a signed angle for the debug overlay, e.g. "+12.5°". */
+	formatAngle(degrees: number): string {
+		return `${degrees > 0 ? '+' : degrees < 0 ? '−' : '±'}${Math.abs(degrees)}°`;
+	}
 	private readonly cdkSrv = inject(CdkOverlayService);
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	readonly stream = input<ParticipantStream | undefined>(undefined);

@@ -122,6 +122,12 @@ export class SpatialAudioSelectorComponent {
 					}
 				</div>
 				<p class="hint">{{ 'PANEL.SETTINGS.HEAD_TRACKING_HINT' | translate }}</p>
+				<div class="row">
+					<mat-slide-toggle id="spatial-audio-debug" [checked]="debug()" (change)="setDebug($event.checked)">
+						{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_DEBUG' | translate }}
+					</mat-slide-toggle>
+				</div>
+				<p class="hint">{{ 'PANEL.SETTINGS.SPATIAL_AUDIO_DEBUG_HINT' | translate }}</p>
 			}
 		</div>
 	`,
@@ -185,6 +191,7 @@ export class SpatialAudioOptionsComponent {
 	protected readonly spread = this.spatialAudio.spread;
 	protected readonly spreadLabel = computed(() => `${this.spread().toFixed(2).replace(/\.?0+$/, '')}×`);
 	protected readonly headTracking = this.spatialAudio.headTrackingEnabled;
+	protected readonly debug = this.spatialAudio.debug;
 	protected readonly status = this.headTrackingService.status;
 	protected readonly cameraLabel = this.headTrackingService.cameraLabel;
 	protected readonly statusKey = computed(
@@ -204,5 +211,9 @@ export class SpatialAudioOptionsComponent {
 
 	setHeadTracking(enabled: boolean): void {
 		this.spatialAudio.setHeadTracking(enabled);
+	}
+
+	setDebug(enabled: boolean): void {
+		this.spatialAudio.setDebug(enabled);
 	}
 }

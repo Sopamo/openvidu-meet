@@ -42,3 +42,15 @@ export const SPATIAL_AUDIO_SPREAD = { min: 1, max: 4, step: 0.25, default: 1 } a
 export interface SpatialPlacement {
 	screenX: number;
 }
+
+/**
+ * @internal
+ *
+ * Debug view of one voice's direction, in degrees (positive: right): the direction it is played from, made of
+ * the tile's direction (times the spread) minus the head's yaw.
+ */
+export interface SpatialAngle {
+	azimuth: number;
+	tile: number;
+	head: number;
+}

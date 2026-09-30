@@ -14,7 +14,8 @@ export enum StorageKeys {
 	PARTICIPANT_VOLUMES = 'participantVolumes',
 	SPATIAL_AUDIO = 'spatialAudio',
 	SPATIAL_AUDIO_SPREAD = 'spatialAudioSpread',
-	HEAD_TRACKING = 'headTracking'
+	HEAD_TRACKING = 'headTracking',
+	SPATIAL_AUDIO_DEBUG = 'spatialAudioDebug'
 }
 
 /**

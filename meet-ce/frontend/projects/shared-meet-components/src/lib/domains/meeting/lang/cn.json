@@ -106,6 +106,8 @@
 			"HEAD_TRACKING_HINT": "通过摄像头跟随你的头部，转头时声音保持在原位。视频仅在你的浏览器中分析。",
 			"HEAD_TRACKING_ACTIVE": "追踪中",
 			"HEAD_TRACKING_STARTING": "正在启动摄像头…",
+			"SPATIAL_AUDIO_DEBUG": "显示音频角度（调试）",
+			"SPATIAL_AUDIO_DEBUG_HINT": "在每个视频上显示其声音的来源角度：画面方向（乘以扩展）减去你头部的转动。",
 			"HEAD_TRACKING_SEARCHING": "正在寻找你的脸…",
 			"HEAD_TRACKING_ERROR": "摄像头不可用",
 			"SPATIAL_AUDIO_DOCS": "文档"
