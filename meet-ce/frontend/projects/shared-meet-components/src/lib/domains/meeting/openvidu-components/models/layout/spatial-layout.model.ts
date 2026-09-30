@@ -19,8 +19,11 @@ const GAP = 8;
 const TILE_RATIO = 16 / 9;
 /** The local camera is shown smaller than the others: nobody needs to see themselves big. */
 const SELF_SCALE = 0.6;
-/** A screen share keeps at least this share of the width it would have on its own. */
+/** A screen share keeps at least this share of the width it would have on its own (row layout). */
 const MIN_SCREEN_SCALE = 0.5;
+/** Columns beside a screen share are at least this wide (else the people go in a row below it) and at most this. */
+const MIN_COLUMN = 160;
+const MAX_COLUMN = 480;
 
 /**
  * @internal
@@ -30,8 +33,9 @@ const MIN_SCREEN_SCALE = 0.5;
  * `SpatialAudioService`). The tiles are as large as the row allows.
  *
  * - Without a screen share, the row is centred and the local camera (smaller) sits in its middle.
- * - With a screen share (or a pinned remote camera), that fills the top as large as possible, the others sit in
- *   a row centred below it, and the local camera is in the bottom-right corner.
+ * - With a screen share (or a pinned remote camera), that is centred and as large as it can be; the others sit
+ *   in columns to its left and right, the local camera at the bottom of the right column. In a window too narrow
+ *   for columns, the others sit in a row below it and the local camera in the bottom-right corner.
  *
  * Returns one box per item, in the same order.
  */
@@ -47,7 +51,8 @@ export function calculateSpatialLayout(width: number, height: number, items: Spa
 	const placed = new Map<SpatialLayoutItem, LayoutBox>();
 
 	if (focus) {
-		focusLayout(width, height, focus.ratio, others.length, !!self).forEach((box, i) => {
+		const layout = sideColumnsLayout(width, height, focus.ratio, others.length, !!self) ?? focusLayout(width, height, focus.ratio, others.length, !!self);
+		layout.forEach((box, i) => {
 			const item = i === 0 ? focus : i === 1 ? self : others[i - 2];
 			if (item && box) placed.set(item, box);
 		});
@@ -61,6 +66,52 @@ export function calculateSpatialLayout(width: number, height: number, items: Spa
 
 	const fallback = box(width / 2, height / 2, 0, 0);
 	return items.map((item) => placed.get(item) ?? fallback);
+}
+
+/**
+ * Screen share in the middle at (nearly) the size it would have alone, the others in columns to its left and
+ * right (the left one takes the extra person), the local camera (smaller) at the bottom of the right column.
+ * Returns the boxes of the screen share, the local camera (if any) and the others, in that order, or undefined
+ * when the window is too narrow for columns of {@link MIN_COLUMN}.
+ */
+function sideColumnsLayout(width: number, height: number, ratio: number, count: number, withSelf: boolean): (LayoutBox | undefined)[] | undefined {
+	const inner = { w: width - 2 * GAP, h: height - 2 * GAP };
+	const r = ratio > 0 && isFinite(ratio) ? ratio : TILE_RATIO;
+	if (count === 0 && !withSelf) return [box(width / 2, height / 2, fit(r, inner.w, inner.h).w, fit(r, inner.w, inner.h).h)];
+
+	// The screen share keeps its full size if that leaves columns of MIN_COLUMN; else it shrinks to make room.
+	let screen = fit(r, inner.w, inner.h);
+	let column = (inner.w - screen.w) / 2 - GAP;
+	if (column < MIN_COLUMN) {
+		column = MIN_COLUMN;
+		screen = fit(r, inner.w - 2 * (column + GAP), inner.h);
+		if (screen.w < inner.w * 0.5) return undefined;
+	}
+	column = Math.min(column, MAX_COLUMN);
+
+	const left = Math.ceil(count / 2);
+	const right = count - left;
+	// Tiles as wide as the column, unless the column's height doesn't fit them all.
+	const stackWidth = (n: number, h: number) => (n === 0 ? column : Math.min(column, ((h - (n - 1) * GAP) / n) * TILE_RATIO));
+	const selfShare = withSelf ? SELF_SCALE : 0;
+	const tileWidth = Math.min(
+		stackWidth(left, inner.h),
+		// The right column holds `right` tiles and the smaller local camera.
+		right + selfShare > 0 ? Math.min(column, ((inner.h - right * GAP) / (right + selfShare)) * TILE_RATIO) : column
+	);
+	const tileHeight = tileWidth / TILE_RATIO;
+	const selfWidth = Math.max(80, tileWidth * SELF_SCALE);
+	const selfBox = withSelf ? corner(width, height, selfWidth) : undefined;
+
+	// Each column's tiles spread evenly over its height (the right one above the local camera).
+	const stack = (n: number, cx: number, bottom: number) =>
+		Array.from({ length: n }, (_, i) => box(cx, GAP + ((bottom - GAP) * (i + 0.5)) / n, tileWidth, tileHeight));
+	const rightBottom = selfBox ? selfBox.top - GAP : height - GAP;
+	const boxes = [
+		...stack(left, GAP + column / 2, height - GAP),
+		...stack(right, width - GAP - column / 2, rightBottom)
+	];
+	return [box(width / 2, height / 2, screen.w, screen.h), selfBox, ...boxes];
 }
 
 /**
