@@ -51,6 +51,9 @@ export class MeetingEventHandlerService {
 	protected soundService = inject(SoundService);
 	protected runtimeConfigService = inject(RuntimeConfigService);
 
+	/** comeet: no join chime when someone reconnects within this time after leaving (network drops). */
+	private static readonly REJOIN_QUIET_MS = 15000;
+
 	// ============================================
 	// PUBLIC METHODS - Room Event Handlers
 	// ============================================
@@ -99,6 +102,19 @@ export class MeetingEventHandlerService {
 				}
 			}
 		);
+
+		// comeet: chime when someone else joins (not for people already there when we join, not for agents,
+		// and not when someone drops and reconnects within a few seconds)
+		const leftAt = new Map<string, number>();
+		room.on(RoomEvent.ParticipantDisconnected, (participant: RemoteParticipant) => {
+			leftAt.set(participant.identity, Date.now());
+		});
+		room.on(RoomEvent.ParticipantConnected, (participant: RemoteParticipant) => {
+			if (participant.isAgent) return;
+			const left = leftAt.get(participant.identity);
+			if (left !== undefined && Date.now() - left < MeetingEventHandlerService.REJOIN_QUIET_MS) return;
+			this.soundService.playOtherParticipantJoinedChime();
+		});
 
 		room.on(
 			RoomEvent.ParticipantMetadataChanged,

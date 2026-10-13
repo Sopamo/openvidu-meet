@@ -10,7 +10,7 @@ import { ParticipantService } from '../participant/participant.service';
  * @internal
  *
  * comeet: meeting reactions (Google Meet style). A reaction is sent to everyone over the data channel,
- * floats up on every screen with the sender's name and plays a short sound.
+ * floats up on every screen with the sender's name and plays a short, quiet sound.
  */
 @Injectable({
 	providedIn: 'root'
@@ -23,7 +23,14 @@ export class ReactionService {
 	/** At most this many reactions on screen; older ones are dropped. */
 	private static readonly MAX_ON_SCREEN = 30;
 	/** Minimum gap between two reaction sounds (ms), so bursts don't turn into noise. */
-	private static readonly SOUND_INTERVAL = 150;
+	private static readonly SOUND_INTERVAL = 600;
+	/** Reaction sounds are mixed well below speech (the files are at about -20 LUFS, like a voice). */
+	private static readonly SOUND_GAIN = 0.3;
+	/** Treble above this is filtered out, which takes the edge off the effects. */
+	private static readonly SOUND_LOWPASS_HZ = 3500;
+	/** Sounds are faded out over this long, ending at most SOUND_MAX_S after they start. */
+	private static readonly SOUND_FADE_S = 0.35;
+	private static readonly SOUND_MAX_S = 1.1;
 
 	private readonly log: ILogger = inject(LoggerService).get('ReactionService');
 	private readonly participantService = inject(ParticipantService);
@@ -88,8 +95,18 @@ export class ReactionService {
 				if (!buffer) return;
 				const source = context.createBufferSource();
 				source.buffer = buffer;
-				source.connect(context.destination);
-				source.start();
+				const filter = context.createBiquadFilter();
+				filter.type = 'lowpass';
+				filter.frequency.value = ReactionService.SOUND_LOWPASS_HZ;
+				const gain = context.createGain();
+				const t0 = context.currentTime;
+				const end = t0 + Math.min(buffer.duration, ReactionService.SOUND_MAX_S);
+				gain.gain.setValueAtTime(ReactionService.SOUND_GAIN, t0);
+				gain.gain.setValueAtTime(ReactionService.SOUND_GAIN, Math.max(t0, end - ReactionService.SOUND_FADE_S));
+				gain.gain.linearRampToValueAtTime(0, end);
+				source.connect(filter).connect(gain).connect(context.destination);
+				source.start(t0);
+				source.stop(end);
 			});
 		} catch (error) {
 			this.log.w('Could not play reaction sound', error);
