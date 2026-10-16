@@ -158,6 +158,8 @@ export class ParticipantModel {
 	 * track/state changes and only resets when the screen track itself changes.
 	 */
 	private readonly screenZoomStates = new Map<string, ScreenZoomState>();
+	/** comeet: whether the camera tile floats; kept on the participant so it also works with the camera off. */
+	private cameraFloating = false;
 
 	constructor(props: ParticipantProperties) {
 		this.participant = props.participant;
@@ -329,7 +331,7 @@ export class ParticipantModel {
 			isScreenStream: false,
 			streamId: cameraVideoTrack?.trackSid ?? `camera-${this.identity}`,
 			isPinned: cameraVideoTrack?.isPinned ?? false,
-			isFloating: cameraVideoTrack?.isFloating ?? false,
+			isFloating: this.cameraFloating,
 			isMutedForcibly: micAudioTrack?.isMutedForcibly ?? false
 		});
 
@@ -393,7 +395,7 @@ export class ParticipantModel {
 	 * @internal
 	 */
 	get isFloating(): boolean {
-		return this.augmentedTracks.some((track) => track.isFloating);
+		return this.cameraFloating;
 	}
 
 	/**
@@ -634,11 +636,14 @@ export class ParticipantModel {
 	 * @internal
 	 */
 	toggleVideoFloating(trackSid: string): void {
+		// comeet: only the camera tile floats, with or without a camera track (`camera-<identity>` without one)
 		const track = this.augmentedTracks.find((track) => track.trackSid === trackSid);
-		if (track) {
-			track.isFloating = !track.isFloating;
-			this.bump();
-		}
+		if (trackSid !== `camera-${this.identity}` && track?.source !== Track.Source.Camera) return;
+		this.cameraFloating = !this.cameraFloating;
+		this.augmentedTracks
+			.filter((t) => t.source === Track.Source.Camera && t.kind === Track.Kind.Video)
+			.forEach((t) => (t.isFloating = this.cameraFloating));
+		this.bump();
 	}
 
 	/**

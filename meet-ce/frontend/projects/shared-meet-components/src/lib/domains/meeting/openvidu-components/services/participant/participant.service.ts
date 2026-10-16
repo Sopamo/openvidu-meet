@@ -1,4 +1,4 @@
-import { Injectable, Signal, WritableSignal, computed, inject, signal } from '@angular/core';
+import { Injectable, Signal, WritableSignal, computed, effect, inject, signal, untracked } from '@angular/core';
 import { ParticipantModel, ParticipantProperties } from '../../models/participant.model';
 import { OpenViduComponentsConfigService } from '../config/directive-config.service';
 import { GlobalConfigService } from '../config/global-config.service';
@@ -58,15 +58,27 @@ export class ParticipantService {
 	/**
 	 * @internal
 	 */
+	/** comeet: the user docked the own camera from the tile menu; it then stays docked until floated again. */
+	private readonly userDocked = signal(false);
+
 	constructor() {
 		this.localParticipant = this._localParticipant.asReadonly();
 		this.remoteParticipants = this._remoteParticipants.asReadonly();
+		// comeet: the own camera always floats (bottom-right, above everything), alone or not, as soon as its
+		// stream exists (it may appear after the room is connected, e.g. with the camera off)
+		effect(() => {
+			const local = this._localParticipant();
+			const camera = local?.streams().find((s) => s.isCameraStream);
+			if (!local || !camera || camera.isFloating || this.userDocked()) return;
+			untracked(() => local.toggleVideoFloating(camera.streamId));
+		});
 	}
 
 	/**
 	 * @internal
 	 */
 	clear(): void {
+		this.userDocked.set(false);
 		this._localParticipant.set(undefined);
 		this._remoteParticipants.set([]);
 	}
@@ -392,6 +404,7 @@ export class ParticipantService {
 		const local = this._localParticipant();
 		if (sid && local) local.toggleVideoFloating(sid);
 		// toggleVideoFloating calls bump() internally — no explicit update needed.
+		if (local) this.userDocked.set(!local.isFloating);
 	}
 
 	/**

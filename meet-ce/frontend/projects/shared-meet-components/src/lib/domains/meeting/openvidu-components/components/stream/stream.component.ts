@@ -144,7 +144,7 @@ export class StreamComponent implements OnDestroy {
 		if (stream?.participant) {
 			if (stream.participant.isLocal) {
 				if (stream.participant.isFloating) {
-					this.participantService.toggleLocalVideoFloating(sid);
+					this.participantService.toggleLocalVideoFloating(stream.streamId);
 				}
 				this.participantService.toggleMyVideoPinned(sid);
 			} else {
@@ -159,9 +159,8 @@ export class StreamComponent implements OnDestroy {
 	 */
 	toggleFloat() {
 		const stream = this.stream();
-		const sid = stream?.videoTrack?.trackSid;
 		if (stream?.participant && stream.participant.isLocal) {
-			this.participantService.toggleLocalVideoFloating(sid);
+			this.participantService.toggleLocalVideoFloating(stream.streamId);
 			this.layoutService.update();
 		}
 	}
