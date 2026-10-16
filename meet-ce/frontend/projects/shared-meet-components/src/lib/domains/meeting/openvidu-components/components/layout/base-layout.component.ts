@@ -198,8 +198,7 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 			// Place immediately, then re-correct after the float resize transition (0.1s) settles:
 			// the container's content height collapses for a frame as the tile leaves the grid, which
 			// would otherwise leave the tile hovering above the bottom edge.
-			requestAnimationFrame(() => this.moveStreamToBottomRight());
-			setTimeout(() => this.moveStreamToBottomRight(), 150);
+			this.placeBottomRightWhenReady();
 		}
 
 		this.wasLocalFloating = isLocalFloating;
@@ -220,6 +219,8 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		this.listenToLayoutDomChanges(container);
 		this.listenToResizeLayout(container);
 		this.listenToCdkDrag(container);
+		// comeet: the own tile may already float before this view exists (it always floats); place it now
+		if (this.localParticipant()?.isFloating) this.placeBottomRightWhenReady();
 	}
 
 	ngOnDestroy(): void {
@@ -457,6 +458,16 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		if (nx !== x || ny !== y) this.setDragPosition({ x: nx, y: ny }, drag);
 	}
 
+	/** comeet: bottom-right now and again once the layout has its size (the session fades in on join). */
+	private placeBottomRightWhenReady(): void {
+		requestAnimationFrame(() => this.moveStreamToBottomRight());
+		for (const ms of [150, 500, 1200]) {
+			setTimeout(() => {
+				if (this.videoIsAtRight && this.videoIsAtBottom) this.moveStreamToBottomRight();
+			}, ms);
+		}
+	}
+
 	private moveStreamToBottomRight(drag = this.getActiveLocalDrag()): void {
 		if (!drag) return;
 		const container = this.layoutContainer()?.element?.nativeElement as HTMLElement | undefined;
@@ -464,7 +475,8 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		// Use the known minimum floating size (CSS constants) rather than reading the DOM:
 		// at the moment the effect fires the .OV_floating class may not yet be painted,
 		// so getBoundingClientRect would still report the layout-driven size.
-		const { right, bottom } = container.getBoundingClientRect();
+		const { right, bottom, width } = container.getBoundingClientRect();
+		if (width === 0) return;
 		const floatingWidth = this.FLOAT_WIDTH;
 		const floatingHeight = this.FLOAT_WIDTH / this.ASPECT_RATIO;
 		this.setDragPosition(
