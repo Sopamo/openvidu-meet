@@ -153,6 +153,8 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 	// ── Drag tracking ─────────────────────────────────────────────────────────────
 
 	private videoIsAtRight = false;
+	/** comeet: the floating tile sits at the bottom edge and follows it when the layout resizes. */
+	private videoIsAtBottom = false;
 	private wasLocalFloating = false;
 	private lastLayoutWidth = 0;
 	private lastLayoutHeight = 0;
@@ -192,6 +194,7 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 			// Just became floating: move to the bottom-right corner to avoid overlapping the main layout.
 			// Mark it right-anchored so layout/panel resizes keep it pinned to the right edge.
 			this.videoIsAtRight = true;
+			this.videoIsAtBottom = true;
 			// Place immediately, then re-correct after the float resize transition (0.1s) settles:
 			// the container's content height collapses for a frame as the tile leaves the grid, which
 			// would otherwise leave the tile hovering above the bottom edge.
@@ -348,6 +351,10 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 							}
 						} else if (this.videoIsAtRight) {
 							this.moveStreamToRight(parentWidth, drag);
+						} else if (this.videoIsAtBottom) {
+							const { x, height } = drag.element.nativeElement.getBoundingClientRect();
+							const bottom = container.getBoundingClientRect().bottom;
+							this.setDragPosition({ x, y: bottom - height - this.MIN_CORNER_MARGIN }, drag);
 						}
 						this.keepInView(drag);
 					}
@@ -366,6 +373,10 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 			const el = event.source.element.nativeElement as HTMLElement;
 			// Sync signal with the actual post-drag transform so CD never resets it.
 			this.setDragPosition(this.getActualDragPosition(el), event.source);
+			const tile = el.getBoundingClientRect();
+			const area = container.getBoundingClientRect();
+			this.videoIsAtBottom = tile.bottom >= area.bottom - 10;
+			if (!this.panelService.isPanelOpened()) this.videoIsAtRight = tile.right >= area.right - 10;
 
 			if (!this.panelService.isPanelOpened()) return;
 			const { x, width } = el.getBoundingClientRect();
@@ -427,8 +438,15 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		if (!drag) return;
 		const container = this.layoutContainer()?.element?.nativeElement as HTMLElement | undefined;
 		if (!container) return;
-		const { y, width } = drag.element.nativeElement.getBoundingClientRect();
-		this.setDragPosition({ x: container.getBoundingClientRect().right - width - this.RIGHT_EDGE_MARGIN, y }, drag);
+		const { y, width, height } = drag.element.nativeElement.getBoundingClientRect();
+		const area = container.getBoundingClientRect();
+		this.setDragPosition(
+			{
+				x: area.right - width - this.RIGHT_EDGE_MARGIN,
+				y: this.videoIsAtBottom ? area.bottom - height - this.MIN_CORNER_MARGIN : y
+			},
+			drag
+		);
 	}
 
 	/** comeet: after the window got smaller, move the floating tile back into the visible area. */
