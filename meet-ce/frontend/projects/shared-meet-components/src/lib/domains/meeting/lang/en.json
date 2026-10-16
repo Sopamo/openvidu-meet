@@ -197,6 +197,7 @@
 	},
 	"SHARE_OVERLAY": {
 		"TITLE": "Start collaborating",
+		"ALONE_TITLE": "No one is here yet",
 		"SUBTITLE": "Share this link to bring others into the meeting"
 	},
 	"WAITING_PANEL": {

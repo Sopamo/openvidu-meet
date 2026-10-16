@@ -108,6 +108,22 @@
 		pointer-events: all;
 		max-width: 100%;
 	}
+
+	// comeet: shown while you are alone
+	.alone-panel {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 20px;
+		text-align: center;
+	}
+
+	.alone-title {
+		margin: 0;
+		font-size: var(--ov-meet-font-size-xl);
+		font-weight: var(--ov-meet-font-weight-bold);
+		color: var(--ov-text-primary-color);
+	}
 }
 
 .fade-in-delayed-more {

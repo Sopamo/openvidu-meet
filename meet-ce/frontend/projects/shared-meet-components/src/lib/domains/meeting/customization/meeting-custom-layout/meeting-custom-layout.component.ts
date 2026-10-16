@@ -1,8 +1,8 @@
 import { NgClass } from '@angular/common';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RuntimeConfigService } from '../../../../shared/services/runtime-config.service';
-import { ShareRoomAccessLinkComponent } from '../../components/share-room-access-link/share-room-access-link.component';
-import { OpenViduComponentsUiModule, PanelService, PanelType } from '../../openvidu-components';
+import { HoldMusicService, OpenViduComponentsUiModule, PanelService, PanelType } from '../../openvidu-components';
 import { SmartLayoutComponent } from '../../openvidu-components/components/layout/smart-layout/smart-layout.component';
 import { SmartLayoutService } from '../../openvidu-components/services/layout/smart-layout.service';
 import { RoomAccessLinkService } from '../../services/room-access-link.service';
@@ -16,9 +16,9 @@ import { MeetingWaitingPanelComponent } from '../meeting-waiting-panel/meeting-w
 	selector: 'ov-meeting-custom-layout',
 	imports: [
 		NgClass,
+		MatSlideToggleModule,
 		OpenViduComponentsUiModule,
 		SmartLayoutComponent,
-		ShareRoomAccessLinkComponent,
 		MeetingCaptionsComponent,
 		MeetingWaitingPanelComponent
 	],
@@ -32,6 +32,7 @@ export class MeetingCustomLayoutComponent {
 	protected roomAccessLinkService = inject(RoomAccessLinkService);
 	protected captionsService = inject(MeetingCaptionsService);
 	protected panelService = inject(PanelService);
+	protected holdMusic = inject(HoldMusicService);
 	private readonly runtimeConfigService = inject(RuntimeConfigService);
 
 	lkRoom = this.meetingContextService.lkRoom;

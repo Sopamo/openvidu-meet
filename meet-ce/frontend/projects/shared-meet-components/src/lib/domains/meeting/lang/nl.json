@@ -196,6 +196,7 @@
 	},
 	"SHARE_OVERLAY": {
 		"TITLE": "Begin met samenwerken",
+		"ALONE_TITLE": "Er is nog niemand",
 		"SUBTITLE": "Deel deze link om anderen aan de meeting te laten deelnemen"
 	},
 	"WAITING_PANEL": {

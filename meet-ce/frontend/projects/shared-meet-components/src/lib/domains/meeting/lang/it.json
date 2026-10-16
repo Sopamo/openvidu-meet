@@ -196,6 +196,7 @@
 	},
 	"SHARE_OVERLAY": {
 		"TITLE": "Inizia a collaborare",
+		"ALONE_TITLE": "Non c'è ancora nessuno",
 		"SUBTITLE": "Condividi questo link per invitare altri alla riunione"
 	},
 	"WAITING_PANEL": {

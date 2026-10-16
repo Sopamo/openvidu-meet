@@ -9,15 +9,17 @@
 			<ng-container *ovLayoutAdditionalElements>
 				@if (shouldShowLinkOverlay()) {
 					<div id="share-link-overlay" class="main-share-room-access-link-container fade-in-delayed OV_big">
-						<ov-share-room-access-link
-							class="main-share-room-access-link"
-							[title]="'SHARE_OVERLAY.TITLE' | translate"
-							[subtitle]="'SHARE_OVERLAY.SUBTITLE' | translate"
-							[titleSize]="linkOverlayConfig.titleSize"
-							[titleWeight]="linkOverlayConfig.titleWeight"
-							[roomAccessUrl]="roomAccessUrl() ?? ''"
-							(copyClicked)="onCopyRoomAccessLinkClicked()"
-						/>
+						<!-- comeet: just "No one is here yet" and the hold music switch -->
+						<div class="main-share-room-access-link alone-panel">
+							<h2 class="alone-title">{{ 'SHARE_OVERLAY.ALONE_TITLE' | translate }}</h2>
+							<mat-slide-toggle
+								id="alone-hold-music-toggle"
+								[checked]="holdMusic.enabled()"
+								(change)="holdMusic.setEnabled($event.checked)"
+							>
+								{{ 'PANEL.SETTINGS.HOLD_MUSIC' | translate }}
+							</mat-slide-toggle>
+						</div>
 					</div>
 				} @else if (shouldShowWaitingOverlay()) {
 					<div id="waiting-overlay" class="main-share-room-access-link-container fade-in-delayed OV_big">

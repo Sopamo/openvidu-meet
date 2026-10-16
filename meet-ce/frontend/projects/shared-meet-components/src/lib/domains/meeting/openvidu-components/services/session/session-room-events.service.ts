@@ -178,9 +178,7 @@ export class SessionRoomEventsService {
 	private subscribeToParticipantDisconnected(room: Room) {
 		room.on(RoomEvent.ParticipantDisconnected, (participant: RemoteParticipant) => {
 			this.participantService.removeRemoteParticipant(participant.sid);
-			if (this.participantService.remoteParticipants().length === 0) {
-				this.participantService.dockLocalCameraVideo();
-			}
+			// comeet: the own camera keeps floating when the last other person leaves
 		});
 	}
 

@@ -196,6 +196,7 @@
 	},
 	"SHARE_OVERLAY": {
 		"TITLE": "コラボレーションを始めましょう",
+		"ALONE_TITLE": "まだ誰もいません",
 		"SUBTITLE": "このリンクを共有して他の人を会議に招待しましょう"
 	},
 	"WAITING_PANEL": {

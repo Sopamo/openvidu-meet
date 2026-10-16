@@ -137,7 +137,9 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 
 	private readonly ASPECT_RATIO = 218 / 123;
 	private readonly MIN_RESIZE_WIDTH = 160;
-	private readonly MIN_CORNER_MARGIN = 0;
+	/** comeet: width of the own floating tile until the user resizes it (matches .OV_floating in the SCSS). */
+	private readonly FLOAT_WIDTH = 240;
+	private readonly MIN_CORNER_MARGIN = 5;
 	/** Gap kept between the floating tile and the right edge of the layout. */
 	private readonly RIGHT_EDGE_MARGIN = 5;
 
@@ -341,12 +343,13 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 								if (this.videoIsAtRight) this.moveStreamToRight(parentWidth, drag);
 							} else {
 								const { x, width } = drag.element.nativeElement.getBoundingClientRect();
-								this.videoIsAtRight = x + width >= parentWidth;
+								this.videoIsAtRight = x + width >= container.getBoundingClientRect().right;
 								if (this.videoIsAtRight) this.moveStreamToRight(parentWidth, drag);
 							}
 						} else if (this.videoIsAtRight) {
 							this.moveStreamToRight(parentWidth, drag);
 						}
+						this.keepInView(drag);
 					}
 				}
 
@@ -366,7 +369,7 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 
 			if (!this.panelService.isPanelOpened()) return;
 			const { x, width } = el.getBoundingClientRect();
-			this.videoIsAtRight = x !== 0 && x + width >= container.getBoundingClientRect().width;
+			this.videoIsAtRight = x !== 0 && x + width >= container.getBoundingClientRect().right;
 		};
 
 		this.localParticipantDrags().forEach((drag) =>
@@ -418,10 +421,22 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		this.currentDragPosition.set(pos);
 	}
 
-	private moveStreamToRight(parentWidth: number, drag = this.getActiveLocalDrag()): void {
+	// comeet: the floating tile is position: fixed (it can be dragged anywhere on screen, over the toolbar too),
+	// so drag positions are viewport coordinates; "right" is the right edge of the layout container.
+	private moveStreamToRight(_parentWidth: number, drag = this.getActiveLocalDrag()): void {
 		if (!drag) return;
+		const container = this.layoutContainer()?.element?.nativeElement as HTMLElement | undefined;
+		if (!container) return;
 		const { y, width } = drag.element.nativeElement.getBoundingClientRect();
-		this.setDragPosition({ x: parentWidth - width - this.RIGHT_EDGE_MARGIN, y }, drag);
+		this.setDragPosition({ x: container.getBoundingClientRect().right - width - this.RIGHT_EDGE_MARGIN, y }, drag);
+	}
+
+	/** comeet: after the window got smaller, move the floating tile back into the visible area. */
+	private keepInView(drag: CdkDrag): void {
+		const { x, y, width, height } = drag.element.nativeElement.getBoundingClientRect();
+		const nx = Math.max(0, Math.min(x, window.innerWidth - width));
+		const ny = Math.max(0, Math.min(y, window.innerHeight - height));
+		if (nx !== x || ny !== y) this.setDragPosition({ x: nx, y: ny }, drag);
 	}
 
 	private moveStreamToBottomRight(drag = this.getActiveLocalDrag()): void {
@@ -431,13 +446,13 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 		// Use the known minimum floating size (CSS constants) rather than reading the DOM:
 		// at the moment the effect fires the .OV_floating class may not yet be painted,
 		// so getBoundingClientRect would still report the layout-driven size.
-		const { width: containerWidth, height: containerHeight } = container.getBoundingClientRect();
-		const floatingWidth = this.MIN_RESIZE_WIDTH;
-		const floatingHeight = this.MIN_RESIZE_WIDTH / this.ASPECT_RATIO;
+		const { right, bottom } = container.getBoundingClientRect();
+		const floatingWidth = this.FLOAT_WIDTH;
+		const floatingHeight = this.FLOAT_WIDTH / this.ASPECT_RATIO;
 		this.setDragPosition(
 			{
-				x: containerWidth - floatingWidth - this.RIGHT_EDGE_MARGIN,
-				y: containerHeight - floatingHeight - this.MIN_CORNER_MARGIN
+				x: right - floatingWidth - this.RIGHT_EDGE_MARGIN,
+				y: bottom - floatingHeight - this.MIN_CORNER_MARGIN
 			},
 			drag
 		);
@@ -467,7 +482,7 @@ export class BaseLayoutComponent implements OnDestroy, AfterViewInit {
 			const el = this.getActiveLocalDrag()?.element.nativeElement as HTMLElement | undefined;
 			if (!el) return;
 			const { x, width } = el.getBoundingClientRect();
-			this.videoIsAtRight = x !== 0 && x + width >= container.getBoundingClientRect().width;
+			this.videoIsAtRight = x !== 0 && x + width >= container.getBoundingClientRect().right;
 		});
 
 		document.addEventListener('webcomponentTestingEndedDragAndDropRightEvent', (event: any) => {

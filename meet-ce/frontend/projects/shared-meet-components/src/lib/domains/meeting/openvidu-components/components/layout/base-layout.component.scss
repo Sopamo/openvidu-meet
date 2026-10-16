@@ -66,15 +66,15 @@
 .OV_floating {
 	// Width/height use CSS custom properties so the resize feature can override them
 	// while !important still beats the layout renderer's inline styles.
-	// The fallbacks are the minimum allowed size (160px wide), so a freshly floated
-	// tile starts as small as possible until the user resizes it.
-	position: relative;
-	width: var(--ov-min-w, 160px) !important;
-	height: var(--ov-min-h, calc(160px * 123 / 218)) !important;
-	bottom: 0 !important;
-	right: 0 !important;
+	// comeet: fixed to the viewport (the drag offset is the position on screen), so the own tile can be
+	// moved anywhere, over the toolbar too, and starts 240px wide until the user resizes it.
+	position: fixed !important;
+	width: var(--ov-min-w, 240px) !important;
+	height: var(--ov-min-h, calc(240px * 123 / 218)) !important;
 	top: 0 !important;
 	left: 0 !important;
+	bottom: auto !important;
+	right: auto !important;
 	z-index: 1000 !important;
 	cursor: move;
 

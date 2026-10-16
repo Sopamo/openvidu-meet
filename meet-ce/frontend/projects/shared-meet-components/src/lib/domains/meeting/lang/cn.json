@@ -196,6 +196,7 @@
 	},
 	"SHARE_OVERLAY": {
 		"TITLE": "开始协作",
+		"ALONE_TITLE": "还没有人",
 		"SUBTITLE": "分享此链接，邀请他人加入会议"
 	},
 	"WAITING_PANEL": {
