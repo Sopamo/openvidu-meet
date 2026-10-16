@@ -110,6 +110,8 @@
 			"HEAD_TRACKING_STARTING": "カメラを起動しています…",
 			"SPATIAL_AUDIO_DEBUG": "音声の角度を表示（デバッグ）",
 			"SPATIAL_AUDIO_DEBUG_HINT": "各映像に声が聞こえる角度を表示します：タイルの方向（×広がり）から頭の回転を引いた値です。",
+			"HOLD_MUSIC": "保留音",
+			"HOLD_MUSIC_HINT": "会議に一人でいる間、静かな音楽を再生します。誰かが参加すると止まります。",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

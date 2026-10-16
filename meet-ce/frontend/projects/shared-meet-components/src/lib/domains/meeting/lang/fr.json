@@ -109,6 +109,8 @@
 			"HEAD_TRACKING_STARTING": "Démarrage de la caméra…",
 			"SPATIAL_AUDIO_DEBUG": "Afficher les angles audio (débogage)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Affiche sur chaque vidéo l'angle d'où vient sa voix : la direction de la vignette (fois l'amplitude) moins la rotation de votre tête.",
+			"HOLD_MUSIC": "Musique d'attente",
+			"HOLD_MUSIC_HINT": "Joue une musique douce tant que vous êtes seul dans la réunion. Elle s'arrête dès que quelqu'un rejoint.",
 			"HEAD_TRACKING_SEARCHING": "Recherche de votre visage…",
 			"HEAD_TRACKING_ERROR": "Caméra indisponible",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

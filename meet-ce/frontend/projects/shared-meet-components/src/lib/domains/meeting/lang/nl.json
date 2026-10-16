@@ -110,6 +110,8 @@
 			"HEAD_TRACKING_STARTING": "Camera starten…",
 			"SPATIAL_AUDIO_DEBUG": "Audiohoeken tonen (debug)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Toont op elke video uit welke hoek de stem komt: de richting van de tegel (maal de spreiding) min de draaiing van je hoofd.",
+			"HOLD_MUSIC": "Wachtmuziek",
+			"HOLD_MUSIC_HINT": "Speelt rustige muziek zolang je alleen in de vergadering bent. Stopt zodra iemand binnenkomt.",
 			"HEAD_TRACKING_SEARCHING": "Gezicht zoeken…",
 			"HEAD_TRACKING_ERROR": "Camera niet beschikbaar",
 			"SPATIAL_AUDIO_DOCS": "Documentatie"

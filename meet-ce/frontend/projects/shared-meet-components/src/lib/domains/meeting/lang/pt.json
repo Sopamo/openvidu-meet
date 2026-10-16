@@ -110,6 +110,8 @@
 			"HEAD_TRACKING_STARTING": "Iniciando câmera…",
 			"SPATIAL_AUDIO_DEBUG": "Mostrar ângulos de áudio (depuração)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Mostra em cada vídeo o ângulo de onde vem a voz: a direção do bloco (vezes a amplitude) menos o giro da sua cabeça.",
+			"HOLD_MUSIC": "Música de espera",
+			"HOLD_MUSIC_HINT": "Toca música suave enquanto você está sozinho na reunião. Para quando alguém entra.",
 			"HEAD_TRACKING_SEARCHING": "Procurando seu rosto…",
 			"HEAD_TRACKING_ERROR": "Câmera indisponível",
 			"SPATIAL_AUDIO_DOCS": "Documentação"

@@ -15,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SettingsPanelGeneralAdditionalElementsDirective } from '../../../directives/template/internals.directive';
 import { CustomDevice } from '../../../models/device.model';
@@ -22,6 +23,7 @@ import { LangOption } from '../../../models/lang.model';
 import { PanelSettingsOptions, PanelType } from '../../../models/panel.model';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { OpenViduComponentsConfigService } from '../../../services/config/directive-config.service';
+import { HoldMusicService } from '../../../services/hold-music/hold-music.service';
 import { PanelService } from '../../../services/panel/panel.service';
 import { PlatformService } from '../../../services/platform/platform.service';
 import { ViewportService } from '../../../services/viewport/viewport.service';
@@ -46,6 +48,7 @@ import { VideoDevicesComponent } from '../../settings/video-devices/video-device
 		MatFormFieldModule,
 		MatIconModule,
 		MatListModule,
+		MatSlideToggleModule,
 		MatTooltipModule,
 		TranslatePipe,
 		ParticipantNameInputComponent,
@@ -72,6 +75,7 @@ export class SettingsPanelComponent implements OnInit {
 	private readonly platformService = inject(PlatformService);
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	public readonly viewportService = inject(ViewportService);
+	protected readonly holdMusic = inject(HoldMusicService);
 
 	/**
 	 * @internal

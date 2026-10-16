@@ -110,6 +110,8 @@
 			"HEAD_TRACKING_STARTING": "Starting camera…",
 			"SPATIAL_AUDIO_DEBUG": "Show audio angles (debug)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Shows on each video the angle its voice comes from: the tile's direction (times the spread) minus your head's turn.",
+			"HOLD_MUSIC": "Hold music",
+			"HOLD_MUSIC_HINT": "Plays quiet music while you're alone in the meeting. It stops when someone joins.",
 			"HEAD_TRACKING_SEARCHING": "Looking for your face…",
 			"HEAD_TRACKING_ERROR": "Camera not available",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

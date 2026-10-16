@@ -110,6 +110,22 @@
 						</mat-list>
 						<ov-spatial-audio-options />
 					</div>
+					<div class="hold-music-section">
+						<mat-list>
+							<mat-list-item class="hold-music-toggle">
+								<mat-icon matListItemIcon class="material-symbols-outlined">music_note</mat-icon>
+								<div matListItemTitle>{{ 'PANEL.SETTINGS.HOLD_MUSIC' | translate }}</div>
+								<div matListItemLine class="hint">{{ 'PANEL.SETTINGS.HOLD_MUSIC_HINT' | translate }}</div>
+								<mat-slide-toggle
+									matListItemMeta
+									id="hold-music-toggle"
+									[checked]="holdMusic.enabled()"
+									(change)="holdMusic.setEnabled($event.checked)"
+									[attr.aria-label]="'PANEL.SETTINGS.HOLD_MUSIC' | translate"
+								/>
+							</mat-list-item>
+						</mat-list>
+					</div>
 					<!-- Additional elements injected via directive -->
 					@if (generalAdditionalElementsTemplate) {
 						<div class="additional-elements-section">

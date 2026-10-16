@@ -30,7 +30,7 @@ import type {
 	RemoteParticipant,
 	Room
 } from '../openvidu-components';
-import { ParticipantLeftReason, RoomEvent } from '../openvidu-components';
+import { ConnectionState, HoldMusicService, ParticipantLeftReason, RoomEvent } from '../openvidu-components';
 import { MeetingContextService } from './meeting-context.service';
 
 /**
@@ -49,6 +49,7 @@ export class MeetingEventHandlerService {
 	protected navigationService = inject(NavigationService);
 	protected notificationService = inject(NotificationService);
 	protected soundService = inject(SoundService);
+	protected holdMusic = inject(HoldMusicService);
 	protected runtimeConfigService = inject(RuntimeConfigService);
 
 	/** comeet: no join chime when someone reconnects within this time after leaving (network drops). */
@@ -104,17 +105,28 @@ export class MeetingEventHandlerService {
 		);
 
 		// comeet: chime when someone else joins (not for people already there when we join, not for agents,
-		// and not when someone drops and reconnects within a few seconds)
+		// and not when someone drops and reconnects within a few seconds). Hold music while we are alone.
 		const leftAt = new Map<string, number>();
+		const updateHoldMusic = () =>
+			this.holdMusic.setAlone(
+				room.state === ConnectionState.Connected &&
+					![...room.remoteParticipants.values()].some((p) => !p.isAgent)
+			);
 		room.on(RoomEvent.ParticipantDisconnected, (participant: RemoteParticipant) => {
 			leftAt.set(participant.identity, Date.now());
+			updateHoldMusic();
 		});
 		room.on(RoomEvent.ParticipantConnected, (participant: RemoteParticipant) => {
+			updateHoldMusic();
 			if (participant.isAgent) return;
 			const left = leftAt.get(participant.identity);
 			if (left !== undefined && Date.now() - left < MeetingEventHandlerService.REJOIN_QUIET_MS) return;
 			this.soundService.playOtherParticipantJoinedChime();
 		});
+		room.on(RoomEvent.Connected, updateHoldMusic);
+		room.on(RoomEvent.ConnectionStateChanged, updateHoldMusic);
+		room.on(RoomEvent.Disconnected, () => this.holdMusic.setAlone(false));
+		updateHoldMusic();
 
 		room.on(
 			RoomEvent.ParticipantMetadataChanged,

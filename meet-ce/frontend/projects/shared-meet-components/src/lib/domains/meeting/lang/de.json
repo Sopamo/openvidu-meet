@@ -110,6 +110,8 @@
 			"HEAD_TRACKING_STARTING": "Kamera wird gestartet…",
 			"SPATIAL_AUDIO_DEBUG": "Audiowinkel anzeigen (Debug)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Zeigt auf jedem Video, aus welchem Winkel die Stimme kommt: Richtung der Kachel (mal Verstärkung) minus Drehung Ihres Kopfes.",
+			"HOLD_MUSIC": "Wartemusik",
+			"HOLD_MUSIC_HINT": "Spielt leise Musik, solange Sie allein im Meeting sind. Sie stoppt, sobald jemand beitritt.",
 			"HEAD_TRACKING_SEARCHING": "Suche Ihr Gesicht…",
 			"HEAD_TRACKING_ERROR": "Kamera nicht verfügbar",
 			"SPATIAL_AUDIO_DOCS": "Dokumentation"
