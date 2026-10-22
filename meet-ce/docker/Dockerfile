@@ -1,13 +1,14 @@
 # ====================================================
 # Stage 1: builder
 # ====================================================
-FROM node:24.15.0 AS builder
+FROM node:26.12.1 AS builder
 
 # Define pnpm version as build argument with default value
-ARG PNPM_VERSION=11.8.0
+ARG PNPM_VERSION=12.14.0
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+# Node >= 25 no longer bundles corepack: install pnpm with npm
+RUN npm install -g pnpm@${PNPM_VERSION} && npm cache clean --force
 
 WORKDIR /app
 
@@ -67,10 +68,10 @@ RUN rm -rf node_modules \
 # ====================================================
 # Stage 2: production
 # ====================================================
-FROM node:24.15.0-alpine AS production
+FROM node:26.12.1-alpine AS production
 
 # Define pnpm version as build argument with default value
-ARG PNPM_VERSION=11.8.0
+ARG PNPM_VERSION=12.14.0
 
 # Set pnpm version as environment variable (available at runtime)
 ENV PNPM_VERSION=${PNPM_VERSION}
@@ -79,7 +80,8 @@ ENV PNPM_VERSION=${PNPM_VERSION}
 RUN apk add --no-cache bash tzdata
 
 # Install pnpm
-RUN corepack enable && corepack prepare pnpm@${PNPM_VERSION} --activate
+# Node >= 25 no longer bundles corepack: install pnpm with npm
+RUN npm install -g pnpm@${PNPM_VERSION} && npm cache clean --force
 
 WORKDIR /opt/openvidu-meet
 
