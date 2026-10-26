@@ -7,9 +7,10 @@ import { StorageService } from '../storage/storage.service';
 /**
  * @internal
  *
- * comeet: quiet "hold" music while you are alone in a meeting. The tracks (generated with ElevenLabs Music,
- * loudness-normalised) are played in random order, crossfading into each other; the music fades out as soon as someone else joins and
- * comes back when everyone else has left. Each user can switch it off (persisted in the browser).
+ * comeet: quiet "hold" music while you wait alone for a meeting to start. The tracks (generated with ElevenLabs
+ * Music, loudness-normalised) are played in random order, crossfading into each other; the music fades out as soon
+ * as someone else joins and does not come back once the meeting has started (see MeetingEventHandlerService).
+ * Each user can switch it off (persisted in the browser).
  */
 @Injectable({
 	providedIn: 'root'
@@ -90,7 +91,11 @@ export class HoldMusicService {
 		this.audio = audio;
 		audio
 			.play()
-			.then(() => this.fadeTo(audio, HoldMusicService.VOLUME, fadeMs))
+			.then(() => {
+				// Stopped (meeting started or ended) while play() was still pending: don't start after all.
+				if (this.audio !== audio && !this.fades.has(audio)) return this.release(audio);
+				this.fadeTo(audio, HoldMusicService.VOLUME, fadeMs);
+			})
 			.catch((error) => {
 				// Autoplay blocked (no user gesture yet): start with the next click or key press.
 				this.log.d('Hold music blocked until the next user gesture', error);
@@ -108,11 +113,13 @@ export class HoldMusicService {
 	}
 
 	private fadeOut(audio: HTMLAudioElement, ms: number): void {
-		this.fadeTo(audio, 0, ms, () => {
-			audio.pause();
-			audio.removeAttribute('src');
-			audio.load();
-		});
+		this.fadeTo(audio, 0, ms, () => this.release(audio));
+	}
+
+	private release(audio: HTMLAudioElement): void {
+		audio.pause();
+		audio.removeAttribute('src');
+		audio.load();
 	}
 
 	/** Ramps the volume; the element stays in `fades` until it has been faded out and released. */

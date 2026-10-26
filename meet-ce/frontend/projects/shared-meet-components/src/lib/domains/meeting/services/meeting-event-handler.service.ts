@@ -105,13 +105,16 @@ export class MeetingEventHandlerService {
 		);
 
 		// comeet: chime when someone else joins (not for people already there when we join, not for agents,
-		// and not when someone drops and reconnects within a few seconds). Hold music while we are alone.
+		// and not when someone drops and reconnects within a few seconds). Hold music while we wait for the
+		// first other person; once someone has been here the meeting has started, and when everyone else has
+		// left it is over: no music then.
 		const leftAt = new Map<string, number>();
-		const updateHoldMusic = () =>
-			this.holdMusic.setAlone(
-				room.state === ConnectionState.Connected &&
-					![...room.remoteParticipants.values()].some((p) => !p.isAgent)
-			);
+		let hadCompany = false;
+		const updateHoldMusic = () => {
+			const others = [...room.remoteParticipants.values()].some((p) => !p.isAgent);
+			if (others) hadCompany = true;
+			this.holdMusic.setAlone(room.state === ConnectionState.Connected && !others && !hadCompany);
+		};
 		room.on(RoomEvent.ParticipantDisconnected, (participant: RemoteParticipant) => {
 			leftAt.set(participant.identity, Date.now());
 			updateHoldMusic();

@@ -111,7 +111,7 @@
 			"SPATIAL_AUDIO_DEBUG": "Mostra angoli audio (debug)",
 			"SPATIAL_AUDIO_DEBUG_HINT": "Mostra su ogni video l'angolo da cui arriva la voce: la direzione del riquadro (per l'ampiezza) meno la rotazione della testa.",
 			"HOLD_MUSIC": "Musica di attesa",
-			"HOLD_MUSIC_HINT": "Riproduce musica tranquilla mentre sei solo nella riunione. Si ferma quando qualcuno entra.",
+			"HOLD_MUSIC_HINT": "Riproduce musica tranquilla mentre aspetti che gli altri entrino. Si ferma quando entra la prima persona.",
 			"HEAD_TRACKING_SEARCHING": "Ricerca del volto…",
 			"HEAD_TRACKING_ERROR": "Fotocamera non disponibile",
 			"SPATIAL_AUDIO_DOCS": "Documentazione"
