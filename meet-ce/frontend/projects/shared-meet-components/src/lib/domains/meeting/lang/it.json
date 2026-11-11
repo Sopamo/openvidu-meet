@@ -112,6 +112,9 @@
 			"SPATIAL_AUDIO_DEBUG_HINT": "Mostra su ogni video l'angolo da cui arriva la voce: la direzione del riquadro (per l'ampiezza) meno la rotazione della testa.",
 			"HOLD_MUSIC": "Musica di attesa",
 			"HOLD_MUSIC_HINT": "Riproduce musica tranquilla mentre aspetti che gli altri entrino. Si ferma quando entra la prima persona.",
+			"NOISE_SUPPRESSION": "Soppressione del rumore",
+			"NOISE_SUPPRESSION_HINT": "Filtra i rumori di fondo del microfono, come la digitazione, le ventole o il traffico, con l'IA nel tuo browser.",
+			"NOISE_SUPPRESSION_UNSUPPORTED": "Non disponibile in questo browser.",
 			"HEAD_TRACKING_SEARCHING": "Ricerca del volto…",
 			"HEAD_TRACKING_ERROR": "Fotocamera non disponibile",
 			"SPATIAL_AUDIO_DOCS": "Documentazione"

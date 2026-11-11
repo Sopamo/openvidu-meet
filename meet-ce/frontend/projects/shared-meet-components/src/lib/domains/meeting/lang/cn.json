@@ -112,6 +112,9 @@
 			"SPATIAL_AUDIO_DEBUG_HINT": "在每个视频上显示其声音的来源角度：画面方向（乘以扩展）减去你头部的转动。",
 			"HOLD_MUSIC": "等待音乐",
 			"HOLD_MUSIC_HINT": "在等待他人加入时播放轻柔的音乐。第一个人加入时停止。",
+			"NOISE_SUPPRESSION": "降噪",
+			"NOISE_SUPPRESSION_HINT": "使用浏览器中的 AI 过滤麦克风中的背景噪音，例如打字声、风扇声或交通噪音。",
+			"NOISE_SUPPRESSION_UNSUPPORTED": "此浏览器不支持。",
 			"HEAD_TRACKING_SEARCHING": "正在寻找你的脸…",
 			"HEAD_TRACKING_ERROR": "摄像头不可用",
 			"SPATIAL_AUDIO_DOCS": "文档"

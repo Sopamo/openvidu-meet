@@ -28,12 +28,14 @@ import {
 
 import type {
 	AudioCaptureOptions,
+	AudioProcessorOptions,
 	CreateLocalTracksOptions,
 	DataPublishOptions,
 	E2EEOptions,
 	RoomOptions,
 	ScreenShareCaptureOptions,
 	TextStreamReader,
+	TrackProcessor,
 	TrackPublishOptions,
 	VideoCaptureOptions
 } from 'livekit-client';
@@ -69,6 +71,7 @@ export class LivekitSdkService {
 
 export {
 	AudioCaptureOptions,
+	AudioProcessorOptions,
 	ConnectionQuality,
 	ConnectionState,
 	createKeyMaterialFromString,
@@ -97,6 +100,7 @@ export {
 	SwitchBackgroundProcessorOptions,
 	TextStreamReader,
 	Track,
+	TrackProcessor,
 	TrackPublication,
 	TrackPublishOptions,
 	VideoCaptureOptions,

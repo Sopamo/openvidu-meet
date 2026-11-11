@@ -112,6 +112,9 @@
 			"SPATIAL_AUDIO_DEBUG_HINT": "Shows on each video the angle its voice comes from: the tile's direction (times the spread) minus your head's turn.",
 			"HOLD_MUSIC": "Hold music",
 			"HOLD_MUSIC_HINT": "Plays quiet music while you wait for others to join. It stops when the first person joins.",
+			"NOISE_SUPPRESSION": "Noise suppression",
+			"NOISE_SUPPRESSION_HINT": "Filters background noise like typing, fans or traffic out of your microphone, using AI in your browser.",
+			"NOISE_SUPPRESSION_UNSUPPORTED": "Not available in this browser.",
 			"HEAD_TRACKING_SEARCHING": "Looking for your face…",
 			"HEAD_TRACKING_ERROR": "Camera not available",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

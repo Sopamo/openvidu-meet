@@ -26,6 +26,7 @@ export {
 
 export type {
     AudioCaptureOptions,
+    AudioProcessorOptions,
     CreateLocalTracksOptions,
     DataPublishOptions,
     E2EEOptions,
@@ -33,6 +34,7 @@ export type {
     ScreenShareCaptureOptions,
     SwitchBackgroundProcessorOptions,
     TextStreamReader,
+    TrackProcessor,
     TrackPublishOptions,
     VideoCaptureOptions
 } from '../livekit/livekit-sdk.service';

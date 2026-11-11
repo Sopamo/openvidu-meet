@@ -13,6 +13,7 @@ import {
 	OVLocalVideoTrack,
 	OVRoom,
 	OVRoomOptions,
+	RoomEvent,
 	Track,
 	VideoCaptureOptions,
 	VideoPresets
@@ -22,6 +23,7 @@ import { LivekitAdapterFactory } from '../livekit-adapter/livekit-adapter.factor
 import { LoggerService } from '../logger/logger.service';
 import { StorageService } from '../storage/storage.service';
 import { SpatialAudioService } from '../spatial-audio/spatial-audio.service';
+import { AudioTrackProcessorService } from '../track-processor/audio-track-processor.service';
 import { VideoTrackProcessorService } from '../track-processor/video-track-processor.service';
 import { AssetsService } from '../../../../../shared/services/assets.service';
 
@@ -35,6 +37,7 @@ export class OpenViduService {
 	private readonly livekitAdapterFactory = inject(LivekitAdapterFactory);
 	private readonly livekitAdapter: LivekitAdapterInterface = this.livekitAdapterFactory.createLiveKitAdapter();
 	private readonly videoTrackProcessorService = inject(VideoTrackProcessorService);
+	private readonly audioTrackProcessorService = inject(AudioTrackProcessorService);
 	private readonly assets = inject(AssetsService);
 	private readonly spatialAudioService = inject(SpatialAudioService);
 
@@ -93,7 +96,7 @@ export class OpenViduService {
 			audioCaptureDefaults: {
 				deviceId: audioDeviceId,
 				echoCancellation: true,
-				noiseSuppression: true,
+				noiseSuppression: this.audioTrackProcessorService.browserNoiseSuppression,
 				autoGainControl: true
 			},
 			videoCaptureDefaults: {
@@ -119,6 +122,12 @@ export class OpenViduService {
 		}
 
 		this.room = this.livekitAdapter.createRoom(roomOptions);
+		// comeet: also covers microphone tracks LiveKit creates itself (e.g. unmuting after joining without one).
+		this.room.on(RoomEvent.LocalTrackPublished, (publication) => {
+			if (publication.source === Track.Source.Microphone && publication.audioTrack) {
+				void this.audioTrackProcessorService.applyToAudioTrack(publication.audioTrack as OVLocalAudioTrack);
+			}
+		});
 		this.log.d('Room initialized successfully');
 	}
 
@@ -327,7 +336,10 @@ export class OpenViduService {
 		audioDeviceId ??= this.storageService.isMicrophoneEnabled();
 
 		const options: OVCreateLocalTracksOptions = {
-			audio: { echoCancellation: true, noiseSuppression: true },
+			audio: {
+				echoCancellation: true,
+				noiseSuppression: this.audioTrackProcessorService.browserNoiseSuppression
+			},
 			video: {}
 		};
 
@@ -384,6 +396,10 @@ export class OpenViduService {
 			const videoTrack = newLocalTracks.find((t) => t.kind === Track.Kind.Video) as OVLocalVideoTrack | undefined;
 			if (videoTrack) {
 				await this.videoTrackProcessorService.applyToVideoTrack(videoTrack);
+			}
+			const audioTrack = newLocalTracks.find((t) => t.kind === Track.Kind.Audio) as OVLocalAudioTrack | undefined;
+			if (audioTrack) {
+				await this.audioTrackProcessorService.applyToAudioTrack(audioTrack);
 			}
 
 			// Mute tracks when the user's stored preference is "off". This is availability-independent
@@ -566,7 +582,7 @@ export class OpenViduService {
 		const options: AudioCaptureOptions = {
 			deviceId: this.toDeviceConstraint(deviceId),
 			echoCancellation: true,
-			noiseSuppression: true,
+			noiseSuppression: this.audioTrackProcessorService.browserNoiseSuppression,
 			autoGainControl: true
 		};
 
@@ -592,6 +608,7 @@ export class OpenViduService {
 				if (!this.deviceService.isMicrophoneEnabled()) {
 					await audioTrack.mute();
 				}
+				await this.audioTrackProcessorService.applyToAudioTrack(audioTrack as OVLocalAudioTrack);
 				this.localTracks.push(audioTrack);
 				this.log.d('New microphone track created and added:', deviceId);
 			}

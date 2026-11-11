@@ -112,6 +112,9 @@
 			"SPATIAL_AUDIO_DEBUG_HINT": "Zeigt auf jedem Video, aus welchem Winkel die Stimme kommt: Richtung der Kachel (mal Verstärkung) minus Drehung Ihres Kopfes.",
 			"HOLD_MUSIC": "Wartemusik",
 			"HOLD_MUSIC_HINT": "Spielt leise Musik, während Sie darauf warten, dass andere beitreten. Sie stoppt, sobald die erste Person beitritt.",
+			"NOISE_SUPPRESSION": "Rauschunterdrückung",
+			"NOISE_SUPPRESSION_HINT": "Filtert Hintergrundgeräusche wie Tippen, Lüfter oder Verkehr aus Ihrem Mikrofon – mit KI direkt in Ihrem Browser.",
+			"NOISE_SUPPRESSION_UNSUPPORTED": "In diesem Browser nicht verfügbar.",
 			"HEAD_TRACKING_SEARCHING": "Suche Ihr Gesicht…",
 			"HEAD_TRACKING_ERROR": "Kamera nicht verfügbar",
 			"SPATIAL_AUDIO_DOCS": "Dokumentation"

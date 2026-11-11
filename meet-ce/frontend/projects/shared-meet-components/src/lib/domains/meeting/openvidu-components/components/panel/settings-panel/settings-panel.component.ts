@@ -24,6 +24,7 @@ import { PanelSettingsOptions, PanelType } from '../../../models/panel.model';
 import { TranslatePipe } from '../../../pipes/translate.pipe';
 import { OpenViduComponentsConfigService } from '../../../services/config/directive-config.service';
 import { HoldMusicService } from '../../../services/hold-music/hold-music.service';
+import { AudioTrackProcessorService } from '../../../services/track-processor/audio-track-processor.service';
 import { PanelService } from '../../../services/panel/panel.service';
 import { PlatformService } from '../../../services/platform/platform.service';
 import { ViewportService } from '../../../services/viewport/viewport.service';
@@ -76,6 +77,7 @@ export class SettingsPanelComponent implements OnInit {
 	private readonly libService = inject(OpenViduComponentsConfigService);
 	public readonly viewportService = inject(ViewportService);
 	protected readonly holdMusic = inject(HoldMusicService);
+	protected readonly noiseSuppression = inject(AudioTrackProcessorService);
 
 	/**
 	 * @internal

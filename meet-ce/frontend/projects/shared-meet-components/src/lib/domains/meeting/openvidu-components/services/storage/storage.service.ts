@@ -171,6 +171,18 @@ export class StorageService {
 	}
 
 	/**
+	 * Whether DeepFilterNet noise suppression runs on the microphone, or undefined when the user never chose
+	 * (AudioTrackProcessorService then decides from the device); see AudioTrackProcessorService.
+	 */
+	getNoiseSuppression(): boolean | undefined {
+		return this.get<boolean>(StorageKeys.NOISE_SUPPRESSION) ?? undefined;
+	}
+
+	setNoiseSuppression(enabled: boolean): void {
+		this.set(StorageKeys.NOISE_SUPPRESSION, enabled);
+	}
+
+	/**
 	 * Persists a value, wrapped as `{ item: value }` so that falsy values (`false`, `0`, `''`) and
 	 * `null` round-trip intact and stay distinguishable from an absent key.
 	 */

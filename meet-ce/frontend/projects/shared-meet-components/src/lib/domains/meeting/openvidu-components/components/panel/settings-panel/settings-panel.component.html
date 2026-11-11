@@ -148,6 +148,28 @@
 						(onAudioDeviceChanged)="onAudioDeviceChanged.emit($event)"
 						(onAudioEnabledChanged)="onAudioEnabledChanged.emit($event)"
 					/>
+					<mat-list class="noise-suppression-section">
+						<mat-list-item class="noise-suppression-toggle">
+							<mat-icon matListItemIcon class="material-symbols-outlined">noise_control_off</mat-icon>
+							<div matListItemTitle>{{ 'PANEL.SETTINGS.NOISE_SUPPRESSION' | translate }}</div>
+							<div matListItemLine class="hint">
+								{{
+									(noiseSuppression.isSupported()
+										? 'PANEL.SETTINGS.NOISE_SUPPRESSION_HINT'
+										: 'PANEL.SETTINGS.NOISE_SUPPRESSION_UNSUPPORTED'
+									) | translate
+								}}
+							</div>
+							<mat-slide-toggle
+								matListItemMeta
+								id="noise-suppression-toggle"
+								[checked]="noiseSuppression.enabled() && noiseSuppression.isSupported()"
+								[disabled]="!noiseSuppression.isSupported()"
+								(change)="noiseSuppression.setEnabled($event.checked)"
+								[attr.aria-label]="'PANEL.SETTINGS.NOISE_SUPPRESSION' | translate"
+							/>
+						</mat-list-item>
+					</mat-list>
 				</div>
 			}
 			<!-- <div *ngIf="selectedOption === settingsOptions.CAPTIONS && showCaptions" class="captions-settings">

@@ -112,6 +112,9 @@
 			"SPATIAL_AUDIO_DEBUG_HINT": "各映像に声が聞こえる角度を表示します：タイルの方向（×広がり）から頭の回転を引いた値です。",
 			"HOLD_MUSIC": "保留音",
 			"HOLD_MUSIC_HINT": "他の参加者を待つ間、静かな音楽を再生します。最初の人が参加すると止まります。",
+			"NOISE_SUPPRESSION": "ノイズ抑制",
+			"NOISE_SUPPRESSION_HINT": "ブラウザ内の AI で、タイピング音やファンの音、車の音などの背景ノイズをマイクから取り除きます。",
+			"NOISE_SUPPRESSION_UNSUPPORTED": "このブラウザでは利用できません。",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

@@ -191,6 +191,21 @@
 		box-sizing: border-box;
 	}
 
+	.noise-suppression-section {
+		padding: 0;
+		margin-top: 8px;
+	}
+
+	.noise-suppression-toggle {
+		height: auto;
+
+		.hint {
+			white-space: normal;
+			font-size: 12px;
+			opacity: 0.7;
+		}
+	}
+
 	// List option styling
 	mat-list-option[aria-selected='true'] {
 		background: var(--ov-accent-action-color) !important;
