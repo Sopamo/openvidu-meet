@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "Noise suppression",
 			"NOISE_SUPPRESSION_HINT": "Filters background noise like typing, fans or traffic out of your microphone, using AI in your browser.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "Not available in this browser.",
+			"NOISE_SUPPRESSION_STRENGTH": "Strength",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Lower keeps your voice more natural, higher removes more noise.",
+			"NOISE_SUPPRESSION_MAX": "Max",
 			"HEAD_TRACKING_SEARCHING": "Looking for your face…",
 			"HEAD_TRACKING_ERROR": "Camera not available",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

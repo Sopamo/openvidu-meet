@@ -182,6 +182,15 @@ export class StorageService {
 		this.set(StorageKeys.NOISE_SUPPRESSION, enabled);
 	}
 
+	/** comeet: how much noise suppression may attenuate noise, in dB. */
+	getNoiseSuppressionStrength(): number | undefined {
+		return this.get<number>(StorageKeys.NOISE_SUPPRESSION_STRENGTH) ?? undefined;
+	}
+
+	setNoiseSuppressionStrength(db: number): void {
+		this.set(StorageKeys.NOISE_SUPPRESSION_STRENGTH, db);
+	}
+
 	/**
 	 * Persists a value, wrapped as `{ item: value }` so that falsy values (`false`, `0`, `''`) and
 	 * `null` round-trip intact and stay distinguishable from an absent key.

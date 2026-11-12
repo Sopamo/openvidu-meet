@@ -31,6 +31,21 @@ cd libDF
 # pin wasm-bindgen to the CLI version above (the glue and the binary must match).
 sed -i 's/^  "default-model",$//' Cargo.toml
 sed -i "s/^wasm-bindgen = { version = \"[^\"]*\"/wasm-bindgen = { version = \"=$WASM_BINDGEN\"/" Cargo.toml
+# The WASM API only exposes the attenuation limit and the post filter; add a setter for the local-SNR thresholds
+# (the LADSPA plugin exposes them as controls too), see the comment on SNR_THRESHOLDS in audio-track-processor.service.ts.
+cat >> src/wasm.rs <<'RS'
+
+/// comeet: Set the local SNR thresholds (dB) that switch the processing stages: below `min_db` the frame is
+/// treated as noise only (silent spectrum), above `max_erb_db` it is left as is, above `max_df_db` the deep
+/// filter stage is skipped. Upstream defaults: -10, 30, 20.
+#[wasm_bindgen]
+pub unsafe fn df_set_thresholds(st: *mut DFState, min_db: f32, max_erb_db: f32, max_df_db: f32) {
+    let state = st.as_mut().expect("Invalid pointer");
+    state.0.min_db_thresh = min_db;
+    state.0.max_db_erb_thresh = max_erb_db;
+    state.0.max_db_df_thresh = max_df_db;
+}
+RS
 
 RUSTFLAGS="-C target-feature=+simd128,+bulk-memory,+nontrapping-fptoint,+mutable-globals" \
 	cargo rustc --lib --release --target wasm32-unknown-unknown --no-default-features --features wasm --crate-type cdylib

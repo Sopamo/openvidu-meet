@@ -17,7 +17,8 @@ export enum StorageKeys {
 	HEAD_TRACKING = 'headTracking',
 	SPATIAL_AUDIO_DEBUG = 'spatialAudioDebug',
 	HOLD_MUSIC = 'holdMusic',
-	NOISE_SUPPRESSION = 'noiseSuppression'
+	NOISE_SUPPRESSION = 'noiseSuppression',
+	NOISE_SUPPRESSION_STRENGTH = 'noiseSuppressionStrength'
 }
 
 /**

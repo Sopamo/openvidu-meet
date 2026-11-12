@@ -5,17 +5,31 @@
 // The audio graph calls process() with blocks of 128 samples, DeepFilterNet works on frames of 480 samples
 // (10 ms), so input and output go through ring buffers. This adds one frame of latency on top of the model's own.
 import './text-codec-polyfill.js';
-import { initSync, df_create, df_get_frame_length, df_process_frame, df_set_atten_lim } from './df.js';
+import {
+	initSync,
+	df_create,
+	df_get_frame_length,
+	df_process_frame,
+	df_set_atten_lim,
+	df_set_thresholds
+} from './df.js';
+
+// DeepFilterNet3 removes quiet speech: below about -50 dBFS (a quiet microphone) it attenuated speech by 17-20 dB in
+// our offline tests, while it kept it from -45 dBFS up. The filter is a gain on the input spectrum, so the input is
+// raised by 20 dB and the output lowered by the same amount; the level stays the same and the cliff moves to about
+// -70 dBFS. Loud speech (-20 dBFS) loses under 1 dB from this.
+const INPUT_GAIN = 10;
 
 class DeepFilterProcessor extends AudioWorkletProcessor {
 	constructor(options) {
 		super();
-		const { wasmModule, modelBytes, attenLimDb } = options.processorOptions;
+		const { wasmModule, modelBytes, attenLimDb, thresholds } = options.processorOptions;
 		this.state = 0;
 		try {
 			initSync({ module: wasmModule });
 			this.state = df_create(new Uint8Array(modelBytes), attenLimDb);
 			this.frame = df_get_frame_length(this.state);
+			if (thresholds) df_set_thresholds(this.state, thresholds.minDb, thresholds.maxErbDb, thresholds.maxDfDb);
 			this.port.postMessage({ type: 'ready', frameLength: this.frame });
 		} catch (error) {
 			this.port.postMessage({ type: 'error', message: String(error?.message ?? error) });
@@ -47,12 +61,12 @@ class DeepFilterProcessor extends AudioWorkletProcessor {
 		}
 		while ((this.inWrite - this.inRead + size) % size >= this.frame) {
 			for (let i = 0; i < this.frame; i++) {
-				this.frameIn[i] = this.input[this.inRead];
+				this.frameIn[i] = this.input[this.inRead] * INPUT_GAIN;
 				this.inRead = (this.inRead + 1) % size;
 			}
 			const enhanced = df_process_frame(this.state, this.frameIn);
 			for (let i = 0; i < enhanced.length; i++) {
-				this.output[this.outWrite] = enhanced[i];
+				this.output[this.outWrite] = enhanced[i] / INPUT_GAIN;
 				this.outWrite = (this.outWrite + 1) % size;
 			}
 		}

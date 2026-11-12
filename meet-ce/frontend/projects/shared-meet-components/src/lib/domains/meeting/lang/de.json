@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "Rauschunterdrückung",
 			"NOISE_SUPPRESSION_HINT": "Filtert Hintergrundgeräusche wie Tippen, Lüfter oder Verkehr aus Ihrem Mikrofon – mit KI direkt in Ihrem Browser.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "In diesem Browser nicht verfügbar.",
+			"NOISE_SUPPRESSION_STRENGTH": "Stärke",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Niedriger klingt Ihre Stimme natürlicher, höher entfernt mehr Geräusche.",
+			"NOISE_SUPPRESSION_MAX": "Max",
 			"HEAD_TRACKING_SEARCHING": "Suche Ihr Gesicht…",
 			"HEAD_TRACKING_ERROR": "Kamera nicht verfügbar",
 			"SPATIAL_AUDIO_DOCS": "Dokumentation"

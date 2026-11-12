@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "Ruisonderdrukking",
 			"NOISE_SUPPRESSION_HINT": "Filtert achtergrondgeluid zoals typen, ventilatoren of verkeer uit je microfoon, met AI in je browser.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "Niet beschikbaar in deze browser.",
+			"NOISE_SUPPRESSION_STRENGTH": "Sterkte",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Lager houdt je stem natuurlijker, hoger verwijdert meer geluid.",
+			"NOISE_SUPPRESSION_MAX": "Max",
 			"HEAD_TRACKING_SEARCHING": "Gezicht zoeken…",
 			"HEAD_TRACKING_ERROR": "Camera niet beschikbaar",
 			"SPATIAL_AUDIO_DOCS": "Documentatie"

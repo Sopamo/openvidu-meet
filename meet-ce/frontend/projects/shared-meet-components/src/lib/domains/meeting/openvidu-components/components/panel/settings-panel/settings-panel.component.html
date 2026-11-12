@@ -170,6 +170,25 @@
 							/>
 						</mat-list-item>
 					</mat-list>
+					@if (noiseSuppression.enabled() && noiseSuppression.isSupported()) {
+						<div class="noise-suppression-strength">
+							<div class="row">
+								<span class="label">{{ 'PANEL.SETTINGS.NOISE_SUPPRESSION_STRENGTH' | translate }}</span>
+								<mat-slider class="strength-slider" [min]="0" [max]="noiseStrengths.length - 1" [step]="1">
+									<input
+										matSliderThumb
+										id="noise-suppression-strength"
+										[value]="noiseStrengthIndex()"
+										(input)="setNoiseStrength($any($event.target).value)"
+										[attr.aria-label]="'PANEL.SETTINGS.NOISE_SUPPRESSION_STRENGTH' | translate"
+										[attr.aria-valuetext]="noiseStrengthLabel() ?? ('PANEL.SETTINGS.NOISE_SUPPRESSION_MAX' | translate)"
+									/>
+								</mat-slider>
+								<span class="value">{{ noiseStrengthLabel() ?? ('PANEL.SETTINGS.NOISE_SUPPRESSION_MAX' | translate) }}</span>
+							</div>
+							<p class="hint">{{ 'PANEL.SETTINGS.NOISE_SUPPRESSION_STRENGTH_HINT' | translate }}</p>
+						</div>
+					}
 				</div>
 			}
 			<!-- <div *ngIf="selectedOption === settingsOptions.CAPTIONS && showCaptions" class="captions-settings">

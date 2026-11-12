@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "शोर दमन",
 			"NOISE_SUPPRESSION_HINT": "आपके ब्राउज़र में AI की मदद से आपके माइक्रोफ़ोन से टाइपिंग, पंखे या ट्रैफ़िक जैसा पृष्ठभूमि शोर हटाता है।",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "इस ब्राउज़र में उपलब्ध नहीं है।",
+			"NOISE_SUPPRESSION_STRENGTH": "तीव्रता",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "कम पर आवाज़ अधिक स्वाभाविक रहती है, अधिक पर ज़्यादा शोर हटता है।",
+			"NOISE_SUPPRESSION_MAX": "अधिकतम",
 			"HEAD_TRACKING_SEARCHING": "आपका चेहरा खोजा जा रहा है…",
 			"HEAD_TRACKING_ERROR": "कैमरा उपलब्ध नहीं",
 			"SPATIAL_AUDIO_DOCS": "दस्तावेज़"

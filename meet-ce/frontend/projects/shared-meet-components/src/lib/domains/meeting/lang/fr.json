@@ -114,6 +114,9 @@
 			"NOISE_SUPPRESSION": "Suppression du bruit",
 			"NOISE_SUPPRESSION_HINT": "Filtre les bruits de fond de votre micro, comme la frappe au clavier, les ventilateurs ou la circulation, grâce à l'IA dans votre navigateur.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "Non disponible dans ce navigateur.",
+			"NOISE_SUPPRESSION_STRENGTH": "Intensité",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Plus faible, votre voix reste plus naturelle ; plus forte, plus de bruit est supprimé.",
+			"NOISE_SUPPRESSION_MAX": "Max",
 			"HEAD_TRACKING_SEARCHING": "Recherche de votre visage…",
 			"HEAD_TRACKING_ERROR": "Caméra indisponible",
 			"SPATIAL_AUDIO_DOCS": "Documentation"

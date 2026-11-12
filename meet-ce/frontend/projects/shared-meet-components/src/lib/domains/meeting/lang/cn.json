@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "降噪",
 			"NOISE_SUPPRESSION_HINT": "使用浏览器中的 AI 过滤麦克风中的背景噪音，例如打字声、风扇声或交通噪音。",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "此浏览器不支持。",
+			"NOISE_SUPPRESSION_STRENGTH": "强度",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "较低时声音更自然，较高时去除更多噪音。",
+			"NOISE_SUPPRESSION_MAX": "最大",
 			"HEAD_TRACKING_SEARCHING": "正在寻找你的脸…",
 			"HEAD_TRACKING_ERROR": "摄像头不可用",
 			"SPATIAL_AUDIO_DOCS": "文档"

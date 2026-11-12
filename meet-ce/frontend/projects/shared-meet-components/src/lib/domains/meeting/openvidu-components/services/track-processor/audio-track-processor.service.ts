@@ -12,10 +12,21 @@ const PROCESSOR_NAME = 'comeet-deepfilter';
 /** DeepFilterNet works on 48 kHz audio. */
 const SAMPLE_RATE = 48000;
 /**
- * How far noise may be attenuated, in dB. 100 is DeepFilterNet's default ("no limit"); lower values leave some
- * background in, which can sound more natural.
+ * The strength setting is DeepFilterNet's attenuation limit: how far noise may be attenuated, in dB. The filter mixes
+ * the original signal back in at that many dB below its level, so speech it mistakes for noise is never removed
+ * completely, and the artifacts of the enhanced signal are masked (Iwamoto et al., "How Bad Are Artifacts?", Interspeech 2022: adding
+ * back a scaled observation reduces the artifact error). 100 dB means no limit (upstream's default).
  */
-const ATTEN_LIM_DB = 100;
+export const NOISE_SUPPRESSION_STRENGTHS = [6, 9, 12, 15, 20, 25, 30, 40, 100] as const;
+const DEFAULT_STRENGTH_DB = 20;
+
+/**
+ * Local SNR thresholds (dB) at which DeepFilterNet switches its stages per 10 ms frame. Upstream's defaults
+ * (-10, 30, 20) return a silent frame below -10 dB, which cut off quiet syllables and word endings, and switch the
+ * stages on and off between frames, which is audible. The model estimates the SNR within [-15, 35], so these values
+ * (the defaults of upstream's LADSPA plugin for live calls) always run both stages and never return silence.
+ */
+const SNR_THRESHOLDS = { minDb: -15, maxErbDb: 35, maxDfDb: 35 };
 
 interface DeepFilterAssets {
 	wasmModule: WebAssembly.Module;
@@ -33,7 +44,7 @@ class DeepFilterNoiseProcessor implements TrackProcessor<Track.Kind.Audio, Audio
 	processedTrack?: MediaStreamTrack;
 
 	private source?: MediaStreamAudioSourceNode;
-	private node?: AudioWorkletNode;
+	node?: AudioWorkletNode;
 	private destination?: MediaStreamAudioDestinationNode;
 
 	constructor(
@@ -99,6 +110,10 @@ export class AudioTrackProcessorService {
 	/** The user's setting. */
 	readonly enabled = this._enabled.asReadonly();
 
+	private readonly _strength = signal(this.validStrength(this.storage.getNoiseSuppressionStrength()));
+	/** How far noise is attenuated, in dB (one of {@link NOISE_SUPPRESSION_STRENGTHS}). */
+	readonly strength = this._strength.asReadonly();
+
 	/** The current microphone track. */
 	private track?: OVLocalAudioTrack;
 	private context?: AudioContext;
@@ -121,6 +136,21 @@ export class AudioTrackProcessorService {
 		this._enabled.set(enabled);
 		this.storage.setNoiseSuppression(enabled);
 		if (this.track) await this.applyToAudioTrack(this.track);
+	}
+
+	/** Changes the strength on the running filter right away. */
+	setStrength(db: number): void {
+		const strength = this.validStrength(db);
+		this._strength.set(strength);
+		this.storage.setNoiseSuppressionStrength(strength);
+		const processor = this.track?.getProcessor();
+		if (processor instanceof DeepFilterNoiseProcessor) {
+			processor.node?.port.postMessage({ type: 'attenLimDb', value: strength });
+		}
+	}
+
+	private validStrength(db: number | undefined): number {
+		return (NOISE_SUPPRESSION_STRENGTHS as readonly number[]).includes(db as number) ? db! : DEFAULT_STRENGTH_DB;
 	}
 
 	/**
@@ -209,7 +239,12 @@ export class AudioTrackProcessorService {
 			channelCount: 1,
 			channelCountMode: 'explicit',
 			// The worklet keeps its own copy, so the cached bytes can be reused for the next track.
-			processorOptions: { wasmModule, modelBytes: modelBytes.slice(0), attenLimDb: ATTEN_LIM_DB }
+			processorOptions: {
+				wasmModule,
+				modelBytes: modelBytes.slice(0),
+				attenLimDb: this._strength(),
+				thresholds: SNR_THRESHOLDS
+			}
 		});
 		await new Promise<void>((resolve, reject) => {
 			node.port.onmessage = ({ data }) => {

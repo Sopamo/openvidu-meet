@@ -88,6 +88,19 @@ export function df_set_atten_lim(st, lim_db) {
 export function df_set_post_filter_beta(st, beta) {
     wasm.df_set_post_filter_beta(st, beta);
 }
+
+/**
+ * comeet: Set the local SNR thresholds (dB) that switch the processing stages: below `min_db` the frame is
+ * treated as noise only (silent spectrum), above `max_erb_db` it is left as is, above `max_df_db` the deep
+ * filter stage is skipped. Upstream defaults: -10, 30, 20.
+ * @param {number} st
+ * @param {number} min_db
+ * @param {number} max_erb_db
+ * @param {number} max_df_db
+ */
+export function df_set_thresholds(st, min_db, max_erb_db, max_df_db) {
+    wasm.df_set_thresholds(st, min_db, max_erb_db, max_df_db);
+}
 function __wbg_get_imports() {
     const import0 = {
         __proto__: null,

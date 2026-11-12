@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "ノイズ抑制",
 			"NOISE_SUPPRESSION_HINT": "ブラウザ内の AI で、タイピング音やファンの音、車の音などの背景ノイズをマイクから取り除きます。",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "このブラウザでは利用できません。",
+			"NOISE_SUPPRESSION_STRENGTH": "強さ",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "弱いほど声が自然に、強いほどノイズをより多く除去します。",
+			"NOISE_SUPPRESSION_MAX": "最大",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

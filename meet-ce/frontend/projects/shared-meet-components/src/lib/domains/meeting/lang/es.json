@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "Supresión de ruido",
 			"NOISE_SUPPRESSION_HINT": "Elimina el ruido de fondo de tu micrófono, como el tecleo, ventiladores o el tráfico, con IA en tu navegador.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "No disponible en este navegador.",
+			"NOISE_SUPPRESSION_STRENGTH": "Intensidad",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Más baja suena más natural, más alta elimina más ruido.",
+			"NOISE_SUPPRESSION_MAX": "Máx",
 			"HEAD_TRACKING_SEARCHING": "Buscando tu cara…",
 			"HEAD_TRACKING_ERROR": "Cámara no disponible",
 			"SPATIAL_AUDIO_DOCS": "Documentación"

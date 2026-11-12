@@ -115,6 +115,9 @@
 			"NOISE_SUPPRESSION": "Soppressione del rumore",
 			"NOISE_SUPPRESSION_HINT": "Filtra i rumori di fondo del microfono, come la digitazione, le ventole o il traffico, con l'IA nel tuo browser.",
 			"NOISE_SUPPRESSION_UNSUPPORTED": "Non disponibile in questo browser.",
+			"NOISE_SUPPRESSION_STRENGTH": "Intensità",
+			"NOISE_SUPPRESSION_STRENGTH_HINT": "Più bassa mantiene la voce più naturale, più alta rimuove più rumore.",
+			"NOISE_SUPPRESSION_MAX": "Max",
 			"HEAD_TRACKING_SEARCHING": "Ricerca del volto…",
 			"HEAD_TRACKING_ERROR": "Fotocamera non disponibile",
 			"SPATIAL_AUDIO_DOCS": "Documentazione"
