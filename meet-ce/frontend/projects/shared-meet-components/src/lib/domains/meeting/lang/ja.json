@@ -118,6 +118,13 @@
 			"NOISE_SUPPRESSION_STRENGTH": "強さ",
 			"NOISE_SUPPRESSION_STRENGTH_HINT": "弱いほど声が自然に、強いほどノイズをより多く除去します。",
 			"NOISE_SUPPRESSION_MAX": "最大",
+			"MIC_TEST": "マイクをテスト",
+			"MIC_TEST_HINT": "録音して、ほかの参加者にどう聞こえるかを確認します。",
+			"MIC_TEST_RECORD": "録音",
+			"MIC_TEST_STOP": "停止",
+			"MIC_TEST_RECORDING": "録音中… 停止をクリックすると再生できます。",
+			"MIC_TEST_NO_MIC": "テストするにはマイクをオンにしてください。",
+			"MIC_TEST_UNSUPPORTED": "このブラウザーでは録音できません。",
 			"HEAD_TRACKING_SEARCHING": "顔を探しています…",
 			"HEAD_TRACKING_ERROR": "カメラを利用できません",
 			"SPATIAL_AUDIO_DOCS": "ドキュメント"

@@ -149,6 +149,17 @@ export class AudioTrackProcessorService {
 		}
 	}
 
+	/**
+	 * The microphone audio as the others receive it (after the filter while it runs), for the microphone test in the
+	 * settings. Undefined while the microphone is off or muted.
+	 */
+	sentMicrophoneTrack(): MediaStreamTrack | undefined {
+		const track = this.track;
+		if (!track || track.isMuted) return undefined;
+		const mediaTrack = track.mediaStreamTrack;
+		return mediaTrack?.readyState === 'live' ? mediaTrack : undefined;
+	}
+
 	private validStrength(db: number | undefined): number {
 		return (NOISE_SUPPRESSION_STRENGTHS as readonly number[]).includes(db as number) ? db! : DEFAULT_STRENGTH_DB;
 	}

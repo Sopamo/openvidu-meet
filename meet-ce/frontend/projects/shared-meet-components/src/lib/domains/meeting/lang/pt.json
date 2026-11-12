@@ -118,6 +118,13 @@
 			"NOISE_SUPPRESSION_STRENGTH": "Intensidade",
 			"NOISE_SUPPRESSION_STRENGTH_HINT": "Mais baixa mantém a voz mais natural, mais alta remove mais ruído.",
 			"NOISE_SUPPRESSION_MAX": "Máx",
+			"MIC_TEST": "Testar o microfone",
+			"MIC_TEST_HINT": "Grave-se e ouça como os outros o ouvem.",
+			"MIC_TEST_RECORD": "Gravar",
+			"MIC_TEST_STOP": "Parar",
+			"MIC_TEST_RECORDING": "A gravar… Clique em Parar para ouvir.",
+			"MIC_TEST_NO_MIC": "Ative o microfone para o testar.",
+			"MIC_TEST_UNSUPPORTED": "A gravação não está disponível neste navegador.",
 			"HEAD_TRACKING_SEARCHING": "Procurando seu rosto…",
 			"HEAD_TRACKING_ERROR": "Câmera indisponível",
 			"SPATIAL_AUDIO_DOCS": "Documentação"

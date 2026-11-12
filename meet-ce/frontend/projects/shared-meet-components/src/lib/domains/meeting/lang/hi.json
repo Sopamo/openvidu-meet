@@ -118,6 +118,13 @@
 			"NOISE_SUPPRESSION_STRENGTH": "तीव्रता",
 			"NOISE_SUPPRESSION_STRENGTH_HINT": "कम पर आवाज़ अधिक स्वाभाविक रहती है, अधिक पर ज़्यादा शोर हटता है।",
 			"NOISE_SUPPRESSION_MAX": "अधिकतम",
+			"MIC_TEST": "अपना माइक्रोफ़ोन जाँचें",
+			"MIC_TEST_HINT": "अपनी आवाज़ रिकॉर्ड करें, फिर सुनें कि दूसरे आपको कैसे सुनते हैं।",
+			"MIC_TEST_RECORD": "रिकॉर्ड करें",
+			"MIC_TEST_STOP": "रोकें",
+			"MIC_TEST_RECORDING": "रिकॉर्डिंग हो रही है… सुनने के लिए रोकें पर क्लिक करें।",
+			"MIC_TEST_NO_MIC": "जाँचने के लिए अपना माइक्रोफ़ोन चालू करें।",
+			"MIC_TEST_UNSUPPORTED": "इस ब्राउज़र में रिकॉर्डिंग उपलब्ध नहीं है।",
 			"HEAD_TRACKING_SEARCHING": "आपका चेहरा खोजा जा रहा है…",
 			"HEAD_TRACKING_ERROR": "कैमरा उपलब्ध नहीं",
 			"SPATIAL_AUDIO_DOCS": "दस्तावेज़"

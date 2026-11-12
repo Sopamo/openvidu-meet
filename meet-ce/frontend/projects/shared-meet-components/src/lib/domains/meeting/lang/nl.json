@@ -118,6 +118,13 @@
 			"NOISE_SUPPRESSION_STRENGTH": "Sterkte",
 			"NOISE_SUPPRESSION_STRENGTH_HINT": "Lager houdt je stem natuurlijker, hoger verwijdert meer geluid.",
 			"NOISE_SUPPRESSION_MAX": "Max",
+			"MIC_TEST": "Microfoon testen",
+			"MIC_TEST_HINT": "Neem jezelf op en luister hoe de anderen je horen.",
+			"MIC_TEST_RECORD": "Opnemen",
+			"MIC_TEST_STOP": "Stop",
+			"MIC_TEST_RECORDING": "Bezig met opnemen… Klik op Stop om het te beluisteren.",
+			"MIC_TEST_NO_MIC": "Zet je microfoon aan om hem te testen.",
+			"MIC_TEST_UNSUPPORTED": "Opnemen is niet beschikbaar in deze browser.",
 			"HEAD_TRACKING_SEARCHING": "Gezicht zoeken…",
 			"HEAD_TRACKING_ERROR": "Camera niet beschikbaar",
 			"SPATIAL_AUDIO_DOCS": "Documentatie"

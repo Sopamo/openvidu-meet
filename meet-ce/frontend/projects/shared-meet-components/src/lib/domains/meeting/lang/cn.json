@@ -118,6 +118,13 @@
 			"NOISE_SUPPRESSION_STRENGTH": "强度",
 			"NOISE_SUPPRESSION_STRENGTH_HINT": "较低时声音更自然，较高时去除更多噪音。",
 			"NOISE_SUPPRESSION_MAX": "最大",
+			"MIC_TEST": "测试麦克风",
+			"MIC_TEST_HINT": "录下你的声音，听听其他人听到的效果。",
+			"MIC_TEST_RECORD": "录音",
+			"MIC_TEST_STOP": "停止",
+			"MIC_TEST_RECORDING": "正在录音… 点击停止即可收听。",
+			"MIC_TEST_NO_MIC": "请打开麦克风后再测试。",
+			"MIC_TEST_UNSUPPORTED": "此浏览器不支持录音。",
 			"HEAD_TRACKING_SEARCHING": "正在寻找你的脸…",
 			"HEAD_TRACKING_ERROR": "摄像头不可用",
 			"SPATIAL_AUDIO_DOCS": "文档"

@@ -189,6 +189,34 @@
 							<p class="hint">{{ 'PANEL.SETTINGS.NOISE_SUPPRESSION_STRENGTH_HINT' | translate }}</p>
 						</div>
 					}
+					<div class="mic-test">
+						<div class="row">
+							<mat-icon class="material-symbols-outlined">graphic_eq</mat-icon>
+							<span class="label">{{ 'PANEL.SETTINGS.MIC_TEST' | translate }}</span>
+							@if (micTestRecording()) {
+								<span class="elapsed">{{ micTestElapsedLabel() }}</span>
+								<button mat-flat-button id="mic-test-stop" (click)="stopMicTest()">
+									<mat-icon>stop</mat-icon>
+									{{ 'PANEL.SETTINGS.MIC_TEST_STOP' | translate }}
+								</button>
+							} @else {
+								<button mat-stroked-button id="mic-test-record" (click)="startMicTest()">
+									<mat-icon>fiber_manual_record</mat-icon>
+									{{ 'PANEL.SETTINGS.MIC_TEST_RECORD' | translate }}
+								</button>
+							}
+						</div>
+						@if (micTestError()) {
+							<p class="hint error">{{ micTestError()! | translate }}</p>
+						} @else if (micTestRecording()) {
+							<p class="hint">{{ 'PANEL.SETTINGS.MIC_TEST_RECORDING' | translate }}</p>
+						} @else if (!micTestUrl()) {
+							<p class="hint">{{ 'PANEL.SETTINGS.MIC_TEST_HINT' | translate }}</p>
+						}
+						@if (micTestUrl() && !micTestRecording()) {
+							<audio id="mic-test-playback" controls autoplay [src]="micTestUrl()"></audio>
+						}
+					</div>
 				</div>
 			}
 			<!-- <div *ngIf="selectedOption === settingsOptions.CAPTIONS && showCaptions" class="captions-settings">
